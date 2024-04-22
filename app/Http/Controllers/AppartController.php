@@ -203,5 +203,12 @@ class AppartController extends Controller
         return redirect('appartements_gest')->with('success', 'Modification effectué avec succès!');
     }
 
+    public function dislplayDetails(Request $request)
+    {
+        return view('details_appart_views', [
+            'id' => $request->id_appart,
+            ]);
+    }
+
 
 }

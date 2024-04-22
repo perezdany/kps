@@ -277,6 +277,18 @@ class ReservationController extends Controller
        
     }
 
+    public function SolderReservation(Request $request)
+    {
+        $lareservation = htmlspecialchars($request->id_reservation);
+            
+        $affected = DB::table('reservations')
+          ->where('id_reservation', $lareservation)
+          ->update(['solder' => 1]);
+        
+          //dd($affected);
+        return redirect('reservations')->with('success', 'La réservation a été soldée');
+    }
+
     public function ReservationCancel()
     {
         $id_reservation =  request('id_reservation');

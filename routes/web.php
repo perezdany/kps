@@ -64,6 +64,22 @@ Route::get('/unsuscribe/{id}/{mail}', [UserController::class, 'Unsuscribe']);
 Route::get('/confirm/{id_client}/{token}', [UserController::class, 'confirm']);
 
 
+//AFFICHER LES DETAILS D'UN APPARTEMENT
+Route::post('display_details', [AppartController::class, 'dislplayDetails']);
+
+//MON PROFILE UTILISATEUR
+//Route::get('my_prof', [UserController::class, ''])
+
+//FORMULAIRE MOT DE PASSE OUBLIE
+Route::get('forget_pass_form', function(){
+    return view('forget_pass_form');
+});
+
+//MOT DE PASSE OUBLIE
+Route::post('get_email', [UserController::class, 'VerifResetCustomerPassword']);
+
+Route::get('/reset_pass_form/{id_client}', [UserController::class, 'ResetPassCustomerForm']);
+
 /*---------*/
 
 //ESPACE CLIENT
@@ -88,6 +104,8 @@ Route::middleware(['guest:web'])->group(function(){
 
     //DECONNEXION DE L'UTILSATEUR
     Route::get('/logout', [AuthController::class, 'logoutUser']);
+
+    
 
     /*Route::get('my_space', function(){
         
@@ -148,6 +166,8 @@ Route::middleware(['guest:web'])->group(function(){
     Route::get('test', function () {
         return view('customer/test');
     });
+
+    
 
 });
 
@@ -216,11 +236,22 @@ Route::middleware(['auth:web'])->group(function(){
     //MODIFIER MA RESERVATION
     Route::post('edit_reservation/edit', [ReservationController::class, 'editMyReservation']);
 
-
+    
     //Test
     Route::get('test', function () {
         return view('customer/test');
     });
+
+    //MON PROFILE UTILISATEUR
+    Route::post('my_prof', [UserController::class, 'displayMyProfile']);
+
+    //MODIFIER MES INFORMATIONS DE COMPTE
+    Route::post('edit_my_customer_account', [UserController::class, 'EditMyAccountCustomer']);
+
+    //MODIFIER MON MOT DE PASSE
+    Route::post('edit_my_customer_pass', [UserController::class, 'EditMyCustommerPassword']);
+
+    
 
 });
 
@@ -327,8 +358,11 @@ Route::middleware(['auth:admin'])->group(function(){
     Route::get('logoutAdmin', [AuthController::class, 'logoutAdmin']);
 
     //valider la réservation
-
     Route::post('validate', [ReservationController::class, 'ValidateReservation']);
+
+    //SOLDER LA RESERVATION RAPIDEMENT
+    Route::post('solder', [ReservationController::class, 'SolderReservation']);
+
 
     //supprimer la reservation
 

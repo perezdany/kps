@@ -40,31 +40,40 @@ class AuthController extends Controller
 
     public function AdminLogin(Request $request)
     {
-        //dd('ici');
-        //Vérifier son département d'abord
+        
+        //VERIFIER SON DEPARTEMENT D'ABORD
         //On va vérifier mlaientenant si le département choisi est le bon
-        $departement = Utilisateur::where('login', $request->login)->first()->id_departement;
+        //dd(Utilisateur::where('login', $request->login)->first()->id_departement);
+        $departement = Utilisateur::where('id_departement', $request->departement)->first();
         //$f = Hash::make($request->password);
         //dd($f);
-        if($departement == $request->departement)
+
+        if($departement != null )
         { 
             //dd(Auth::guard('admin')->attempt(['login' => $request->login, 'password' => $request->password]));
             //dd(Auth::guard('admin')->attempt(['login' => $request->login, 'passe' => $request->passe, ]));
+           
+            //dd($departement);
             if (Auth::guard('admin')->attempt(['login' => $request->login, 'password' => $request->password, ])) 
             {
+                
                 // Authentication was successful...
                 //dd(Auth::guard('admin')->attempt(['pseudo' => $request->login, 'password' => $request->pass, ]));
-    
+
                 $request->session()->regenerate();//regeneger la session
     
                 return redirect()->route('mydash'); //si l'utilisateur était sur une ancienne page après la connexion ca le renvoi la bas dans le cas contraire sur la page d'accueil welcome
+               
     
             }
             return back()->with('error', 'Utilisateur inexistant, mot de passe ou login incorrect');
+           
+            
         }
         else
         {
             return redirect('login_admin')->with('error', 'Vous n\'êtes pas dans ce département. Essayez un autre SVP');
+           
         }
     
 

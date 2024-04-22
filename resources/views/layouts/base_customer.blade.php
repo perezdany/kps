@@ -46,8 +46,8 @@
         <div class="container-fluid bg-dark px-0">
             <div class="row gx-0">
                 <div class="col-lg-3 bg-dark d-none d-lg-block">
-                    <a href="index.html" class="navbar-brand w-100 h-100 m-0 p-0 d-flex align-items-center justify-content-center">
-                        <h1 class="m-0 text-primary text-uppercase">KPS IMMOBILIER</h1>
+                    <a href="" class="navbar-brand w-100 h-100 m-0 p-0 d-flex align-items-center justify-content-center">
+                        <h1 class="m-0 text-primary text-uppercase">KPS</h1>
                     </a>
                 </div>
                 <div class="col-lg-9">
@@ -82,7 +82,7 @@
                         <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                             <div class="navbar-nav mr-auto py-0">
                                 <a href="welcome" class="nav-item nav-link active">Vers le site</a>
-                                <a href="welcome" class="nav-item nav-link active">Mon</a>
+                                <!--<a href="welcome" class="nav-item nav-link active">Mon</a>-->
                                 <a href="about" class="nav-item nav-link">A propos de nous</a>
                                 <a href="services" class="nav-item nav-link">Services</a>
                                 <a href="appartements" class="nav-item nav-link">Appartements</a>

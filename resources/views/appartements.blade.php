@@ -93,13 +93,7 @@
                                                 <small class="fa fa-star text-primary"></small>
                                             @endfor
                                         </div>
-                                        <!--<div class="ps-2">
-                                            <small class="fa fa-star text-primary"></small>
-                                            <small class="fa fa-star text-primary"></small>
-                                            <small class="fa fa-star text-primary"></small>
-                                            <small class="fa fa-star text-primary"></small>
-                                            <small class="fa fa-star text-primary"></small>
-                                        </div>-->
+                                       
                                     </div>
                                     <div class="d-flex mb-3"><!--lits & caractéristiques-->
                                         <small class="border-end me-3 pe-3"><i class="fa fa-bed text-primary me-2"></i>{{$get->nb_lit}} Lits</small>
@@ -112,8 +106,13 @@
                                         
                                     </div>
                                     <p class="text-body mb-3">Découvrez le confort dans cet appartement de {{$get->note}} pour {{$get->prix}} la nuit. Vous pouvez voir plus de détails en cliquant sur le bouton</p>
-                                   <div class="d-flex justify-content-between">
-                                        <a class="btn btn-sm btn-primary rounded py-2 px-4" href="">Voir les détails</a>
+                                    <div class="d-flex justify-content-between">
+                                        <form action="display_details", method="post">
+                                            @csrf
+                                            <input type="text" value="{{$get->id}}" style="display: none" name="id_appart">
+                                            <button class="btn btn-sm btn-primary rounded py-2 px-4">Voir les détails</button>
+                                        </form>
+                                        
                                         @if(auth()->user() != null)
                                             <form method="post" action="add_cart">
                                                 @csrf
@@ -121,7 +120,6 @@
                                                 <input type="text" name="user_email" value="{{auth()->user()->email}}" style="display: none;">
                                                 <button class="btn btn-sm btn-dark rounded py-2 px-4" >Ajouter au panier</buton>
                                             </form>
-
 
                                         @else
 

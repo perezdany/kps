@@ -15,6 +15,7 @@ use Illuminate\Support\Str;
 use App\Mail\MailConfirmUser;
 use App\Mail\Newsletter;
 use App\Mail\ContactMessage;
+use App\Mail\ResetPasswordMail;
 use DB;
 
 class UserController extends Controller
@@ -476,7 +477,7 @@ class UserController extends Controller
         else
         {
             //var_dump($user_email);
-                $customer = new Client(['nom_prenoms' => $name, 'email' => $user_email,  'tel' => $user_tel, 'adress_geo' => $user_addres, 'mdp' => $user_password, 'confirmation_token' => str_replace("/", '', bcrypt(Str::random(10))), 'accepted_terms' => false, 'member_since' => $today]);
+                $customer = new Client(['nom_prenoms' => $name, 'email' => $user_email,  'tel' => $user_tel, 'adress_geo' => $user_addres, 'password' => $user_password, 'confirmation_token' => str_replace("/", '', bcrypt(Str::random(10))), 'accepted_terms' => false, 'member_since' => $today]);
                 $customer->save();
                 $geter = Client::where('email', $user_email)->first();
                 //envoi du mail de confirmation ; appel de la classe en fait
@@ -627,6 +628,78 @@ class UserController extends Controller
         ->get();
 
         return $get;
+    }
+
+    public function displayMyProfile(Request $request)
+    {
+        //dd('ici');
+        return view('customer/my_profile', [
+            'id' => $request->id_user,
+            ]);
+    }
+
+    public function EditMyAccountCustomer(Request $request)
+    {
+          //ici c'est le client qu s'inscrit. vici son script creatcustomer sera pur l'admin
+          $name = $request->name;
+          $user_email = $request->email;
+          $user_tel = $request->tel;
+          $user_addres = $request->adresse;
+         
+  
+          $customer_update = DB::table('clients')
+              ->where('id', $request->id_customer)
+              ->update(['nom_prenoms' => $name, 'email' =>  $user_email, 'tel' => $user_tel, 'adress_geo' => $user_addres]);
+  
+          return redirect('my_space')->with('success', 'Modification effectuée avec succès');
+    }
+
+    public function EditMyCustommerPassword(Request $request)
+    {
+        $user_password = Hash::make($request->password);
+        //dd( $user_password);
+        $customer_update = DB::table('clients')
+        ->where('id', $request->id_customer)
+        ->update(['password' => $user_password,]);
+        //dd($customer_update);
+
+        return redirect('my_space')->with('success', 'Modification effectuée avec succès');
+    }
+
+    public function VerifResetCustomerPassword(Request $request)
+    {
+        $email = $request->email;
+
+        $le_client = Client::where('email', $email)->first();
+
+        if($le_client != null)
+        {
+            $url = config('app.url')."/reset_pass_form/".$le_client->id;
+
+            //echo $url; 
+            
+            $data = ['id_client' => $le_client->id,  'url' => $url];
+      
+            Mail::to($email)->send(new ResetPasswordMail($data));
+
+            return redirect('forget_pass_form')->with('success', 'Un mail a été envoyé à '. $email. 'consultez votre boîte mail');
+           /* return view('reset_pass_form', [
+                'id' => $le_client->id,
+                ] );*/
+        }
+        return redirect('forget_pass_form')->with('error', 'L\'adresse mail renseignée n\'existe pas');
+    }
+
+    public function ResetPassCustomerForm($id)
+    {
+        return view('reset_pass_form', [
+            'id' => $id,
+            ] );
+    }
+
+    public function ResetMyPassword(Request $request)
+    {
+
     }
 
 }

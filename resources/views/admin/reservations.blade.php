@@ -75,7 +75,11 @@
                         En attente de validation
                       @else
                         @if($all->solder == 0)
-                          Réservation non soldée
+                          <form action="solder" method="post">
+                            @csrf
+                            <input type="text" name="id_reservation" style="display: none;" value="{{$all->id_reservation}}">
+                            <button class="btn btn-warning"><span class="fa fa-check"></span>SOLDER</button>
+                          </form>
                         @else
                           Réservation  soldée
                         @endif
