@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 use App\Models\Utilisateur;
+use App\Models\Client;
 
 class AuthController extends Controller
 {
@@ -90,6 +91,7 @@ class AuthController extends Controller
         //dd(Auth::guard('web')->attempt(['email' => $request->login, 'password' => $request->password]));
         //dd(Auth::guard('web')->attempt(['tel' => $request->login, 'password' => $request->password ]));
         //dd($request->password);
+        
         if (Auth::guard('web')->attempt(['email' => $request->login, 'password' => $request->password])) 
         {
             // Authentication was successful...

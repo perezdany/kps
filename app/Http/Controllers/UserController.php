@@ -702,4 +702,13 @@ class UserController extends Controller
 
     }
 
+    public function getDepartmentLevel($id)
+    {
+        $get = DB::table('utilisateurs')
+                    ->where('id', $id)
+                    ->join('departements', 'utilisateurs.id_departement', '=', 'departements.id_departement')
+                    ->get(['utilisateurs.*', 'departements.*']);
+        return $get;
+    }
+
 }

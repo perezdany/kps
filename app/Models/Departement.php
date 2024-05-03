@@ -13,6 +13,7 @@ class Departement extends Model
 
       protected $fillable = [
         'desig_departement',
+        'niveau',
         
     ];
 }

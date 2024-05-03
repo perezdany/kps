@@ -1,3 +1,6 @@
+@php
+  use App\Http\Controllers\UserController;
+@endphp
 <!DOCTYPE html>
 <html>
 <head>
@@ -119,18 +122,28 @@
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>
-        <li class="active treeview menu-open">
-          <a href="#">
-            <i class="fa fa-dashboard"></i> <span>Tableau de bord</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="depenses"><i class="fa fa-circle-o"></i> Dépenses</a></li>
-            <!--<li class="active"><a href=""><i class="fa fa-circle-o"></i> Recettes</a></li>-->
-          </ul>
-        </li>
+        @php
+          $get = (new UserController())->getDepartmentLevel(auth()->user()->id);
+        @endphp
+        
+        @foreach($get as $get)
+          @if($get->niveau == 1)
+            <li class="active treeview menu-open">
+              <a href="#">
+                <i class="fa fa-dashboard"></i> <span>Tableau de bord</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+              
+                <li><a href="depenses"><i class="fa fa-circle-o"></i> Dépenses</a></li>
+                
+                <!--<li class="active"><a href=""><i class="fa fa-circle-o"></i> Recettes</a></li>-->
+              </ul>
+            </li>
+          @endif
+        @endforeach
         <li class="treeview">
           <a href="#">
             <i class="fa fa-laptop"></i>
@@ -144,7 +157,15 @@
             <li><a href="departements"><i class="fa fa-circle-o"></i> Départements</a></li>
             <li><a href="appartements_gest"><i class="fa fa-circle-o"></i> Appartements</a></li>
             <!--<li><a href=""><i class="fa fa-circle-o"></i> Paiements</a></li>-->
-            <li><a href="reservations"><i class="fa fa-circle-o"></i> Réservations</a></li>
+             @php
+              $get = (new UserController())->getDepartmentLevel(auth()->user()->id);
+            @endphp
+            @foreach($get as $get)
+              @if($get->niveau == 1)
+                <li><a href="reservations"><i class="fa fa-circle-o"></i> Réservations</a></li>
+              @endif
+            @endforeach
+           
             <li><a href="customers"><i class="fa fa-circle-o"></i> Clients</a></li>
             <li><a href="users"><i class="fa fa-circle-o"></i> Utilisateurs</a></li>
             <!--<li><a href=""><i class="fa fa-circle-o"></i> Factures</a></li>-->
