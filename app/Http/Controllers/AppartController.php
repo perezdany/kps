@@ -59,9 +59,14 @@ class AppartController extends Controller
 
     public function GetMostAccurate()
     {
-        $get = DB::table('apparts')->join('typeapparts', 'typeapparts.id_type_appart', '=', 'apparts.id_type_appart')->orderByRaw('apparts.id', 'asc')->where('apparts.note', '>=', 4)->get(['apparts.id', 'apparts.designation_appart', 'apparts.prix', 'apparts.nb_lit', 'apparts.nb_douche', 'apparts.path', 'apparts.path_descript1', 'apparts.path_descript2', 'apparts.path_descript3', 'apparts.note', 'apparts.internet_wifi', 'apparts.description', 'typeapparts.id_type_appart', 'typeapparts.libele_type_appart']);
-
+        $get = DB::table('apparts')
+            ->join('typeapparts', 'typeapparts.id_type_appart', '=', 'apparts.id_type_appart')->orderByRaw('apparts.id', 'asc')
+            ->where('apparts.note', '>=', 4)
+            ->select('apparts.*', 'typeapparts.*')
+            ->get();
+        //dd($get);
         return $get;
+        /*->get(['apparts.id', 'apparts.designation_appart', 'apparts.prix', 'apparts.nb_lit', 'apparts.nb_douche', 'apparts.path', 'apparts.path_descript1', 'apparts.path_descript2', 'apparts.path_descript3', 'apparts.note', 'apparts.internet_wifi', 'apparts.description', 'typeapparts.id_type_appart', 'typeapparts.libele_type_appart']);*/
     }
 
     public function AppartBusy($id)

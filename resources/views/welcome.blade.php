@@ -140,24 +140,24 @@
                     //$nombre_appart = $appart->CountAppart();
                     //on va prendre les apparts les mieux notés.
                     $first_three = $appart->GetMostAccurate();
-
+                    //dd($first_three);
                     //$compte == 0;
                 @endphp
 
                 <div class="row g-4">
-                    @foreach($first_three as $first_three)
+                    @foreach($first_three as $get)
 
                         <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                             <div class="room-item shadow rounded overflow-hidden">
                                 <div class="position-relative"><!--l'image-->
-                                    <img class="img-fluid" src="{{Storage::url($first_three->path)}}" alt="{{$first_three->designation_appart}}">
-                                    <small class="position-absolute start-0 top-100 translate-middle-y bg-primary text-white rounded py-1 px-3 ms-4">{{$first_three->prix}}/Nuit</small>
+                                    <img class="img-fluid" src="{{Storage::url($get->path)}}" alt="{{$get->designation_appart}}">
+                                    <small class="position-absolute start-0 top-100 translate-middle-y bg-primary text-white rounded py-1 px-3 ms-4">{{$get->prix}}/Nuit</small>
                                 </div>
                                 <div class="p-4 mt-2">
                                     <div class="d-flex justify-content-between mb-3"><!--nom et note-->
-                                        <h5 class="mb-0">{{$first_three->designation_appart}}</h5>
+                                        <h5 class="mb-0">{{$get->designation_appart}}</h5>
                                         <div class="ps-2">
-                                            @for ($i = 0; $i < $first_three->note; $i++)
+                                            @for ($i = 0; $i < $get->note; $i++)
                                                 <small class="fa fa-star text-primary"></small>
                                             @endfor
                                         </div>
@@ -170,23 +170,23 @@
                                         </div>-->
                                     </div>
                                     <div class="d-flex mb-3"><!--lits & caractéristiques-->
-                                        <small class="border-end me-3 pe-3"><i class="fa fa-bed text-primary me-2"></i>{{$first_three->nb_lit}} Lits</small>
-                                        <small class="border-end me-3 pe-3"><i class="fa fa-bath text-primary me-2"></i>{{$first_three->nb_douche}} Salle de Bain</small>
-                                        @if($first_three->note == 0)
+                                        <small class="border-end me-3 pe-3"><i class="fa fa-bed text-primary me-2"></i>{{$get->nb_lit}} Lits</small>
+                                        <small class="border-end me-3 pe-3"><i class="fa fa-bath text-primary me-2"></i>{{$get->nb_douche}} Salle de Bain</small>
+                                        @if($get->note == 0)
                                             <small><i class="fa fa-wifi text-primary me-2"></i>pas de Wifi</small>
                                         @else
                                             <small><i class="fa fa-wifi text-primary me-2"></i>Wifi</small>
                                         @endif
                                         
                                     </div>
-                                    <p class="text-body mb-3">Découvrez le confort dans cet appartement de {{$first_three->note}} étoiles pour {{$first_three->prix}} la nuit. Vous pouvez voir plus de détails en cliquant sur le bouton</p>
+                                    <p class="text-body mb-3">Découvrez le confort dans cet appartement de {{$get->note}} étoiles pour {{$get->prix}} la nuit. Vous pouvez voir plus de détails en cliquant sur le bouton</p>
                                     <div class="d-flex justify-content-between">
                                         <form action="display_details", method="post">
                                             @csrf
-                                            <input type="text" value="{{$first_three->id}}" style="display: none" name="id_appart">
+                                            <input type="text" value="{{$get->id}}" style="display: none" name="id_appart">
                                             <button class="btn btn-sm btn-primary rounded py-2 px-4">Voir les détails</button>
                                         </form>
-                                        @if( session()->has('nom'))
+                                        @if( auth()->user() != null )
                                             
                                            <a class="btn btn-sm btn-dark rounded py-2 px-4" href="add_cart">Ajouter au panier</a>
                                         

@@ -359,7 +359,7 @@ class UserController extends Controller
 
     }
 
-    public function RegisterUser()
+    public function RegisterUser(Request $request)
     {
         //Enregistrer un utilisateur de l'administration
          //ici c'est le client qu s'inscrit. vici son script creatcustomer sera pur l'admin
