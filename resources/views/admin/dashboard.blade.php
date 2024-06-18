@@ -136,52 +136,46 @@
                   </div>
                 </div>
                 <div class="box-body">
-                      <div class="row">
-                        <div class="col-md-12">
-                          <p class="text-center">
-                            <strong><strong>Recettes Mensuelles année @php
-                              echo date('Y');
-                            @endphp</strong></strong>
-                          </p>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <p class="text-center">
+                          <strong><strong>Recettes Mensuelles année @php
+                            echo date('Y');
+                          @endphp</strong></strong>
+                        </p>
 
-                          <!--my chart-->
-                          <canvas id="mychart" aria-label="chart" style="height:180px;"></canvas>
+                        <!--my chart-->
+                        <canvas id="mychart" aria-label="chart" style="height:180px;"></canvas>
 
-                          <!-- my own chart import-->
-                          <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-                          
-                          <script>
-                              const ctx = document.getElementById('mychart').getContext('2d');
+                        <!-- my own chart import-->
+                        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                        
+                        <script>
+                            const ctx = document.getElementById('mychart').getContext('2d');
 
-                              const barchart = new Chart(ctx, {
-                                  type : "bar",
-                                  data : {
+                            const barchart = new Chart(ctx, {
+                                type : "bar",
+                                data : {
 
-                                      //LE LABELS POUR LES ABSCISSES DU GRAPHE
-                                      labels: ['JANVIER', 'FEVRIER', 'MARS', 'AVRIL', 'MAI', 'JUIN', 'JUILLET', 'AOUT', 'SEPTEMBRE', 'OCTOBRE', 'NOVEMBRE', 'DECEMBRE'],
-                                      datasets: [{
-                                          label: 'Recettes',
-                                          data: @json($data),
-                                          backgroundColor: ["#e8daef", " #a9dfbf", " #85929e", "blue", "#229954", " #f1948a ", "#2c3e50", "#fad7a0", "#2874a6", "#f1c40f", "#ebf5fb", "#1c2833"],
-                                      }]
-                                  },
-                                  options: {
-                                      layout: {
-                                          padding: 20
-                                    }
+                                    //LE LABELS POUR LES ABSCISSES DU GRAPHE
+                                    labels: ['JANVIER', 'FEVRIER', 'MARS', 'AVRIL', 'MAI', 'JUIN', 'JUILLET', 'AOUT', 'SEPTEMBRE', 'OCTOBRE', 'NOVEMBRE', 'DECEMBRE'],
+                                    datasets: [{
+                                        label: 'Recettes',
+                                        data: @json($data),
+                                        backgroundColor: ["#e8daef", " #a9dfbf", " #85929e", "blue", "#229954", " #f1948a ", "#2c3e50", "#fad7a0", "#2874a6", "#f1c40f", "#ebf5fb", "#1c2833"],
+                                    }]
+                                },
+                                options: {
+                                    layout: {
+                                        padding: 20
                                   }
-                              })
-                          </script>
-                              <!-- /.chart-responsive -->
-                        </div>
+                                }
+                            })
+                        </script>
+                            <!-- /.chart-responsive -->
                       </div>
                     </div>
-              
-                  
-                
-              
-
-              
+                </div>
                 
               </div>
             @endif
