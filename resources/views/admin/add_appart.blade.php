@@ -8,7 +8,7 @@
 @endsection
 
 @section('poste')
-  {{$admin->libele_poste}}
+  {{auth()->user()->libele_poste}}
 @endsection
 
 @section('location')
@@ -94,10 +94,17 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <label  class="col-sm-4 control-label">Tarif :</label>
+                  <label  class="col-sm-4 control-label">Tarif jours :</label>
 
                   <div class="col-sm-8">
-                    <input type="text" class="form-control" placeholder="prix unitaire" required name="prix">
+                    <input type="text" class="form-control" placeholder="prix unitaire" required name="prix_j">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label  class="col-sm-4 control-label">Tarif nuits :</label>
+
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control" placeholder="prix unitaire" required name="prix_n">
                   </div>
                 </div>
                

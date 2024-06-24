@@ -2,7 +2,7 @@
   use App\Http\Controllers\DepartementController;
   use App\Http\Controllers\AppartController;
 
-  use App\Models\Appart
+  use App\Models\Appart;
 @endphp
 
 @extends('layouts/base_admin')
@@ -92,7 +92,7 @@
                               //var_dump (empty($busy));
                               if(empty(get_object_vars($busy)))//donc l'appart est libre
                               {
-                                 echo'<b><option value="'.$all->id.'">'.$all->designation_appart.' || tarif:'.$all->prix.'</option></b>';
+                                 echo'<b><option value="'.$all->id.'">'.$all->designation_appart.' || tarif:'.$all->prix_jour.'</option></b>';
                                   
                               }
                               else
@@ -116,10 +116,17 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <label  class="col-sm-4 control-label">Nombre de jours(*) :</label>
+                  <label  class="col-sm-4 control-label">Nombre de séjours(*) :</label>
 
                   <div class="col-sm-8">
                     <input type="number" class="form-control" value="0" name="jours" min="0" max="31"required>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label  class="col-sm-4 control-label">Nombre de nuitées(*) :</label>
+
+                  <div class="col-sm-8">
+                    <input type="number" class="form-control" value="0" name="nuits" min="0" max="31"required>
                   </div>
                 </div>
                 <div class="form-group">

@@ -47,7 +47,8 @@
                   <tr>
                     <th>Désignation</th>
                     <th>Type</th>
-                    <th>Tarifs</th>
+                    <th>Tarifs jours</th>
+                    <th>Tarifs nuits</th>
                     <th>Nombre de lits</th>
                     <th>Nombre de douche</th>
                     <th>Note</th>
@@ -62,7 +63,8 @@
                  
                     <td>{{$all->designation_appart}}</td>
                     <td>{{$all->libele_type_appart}}</td>
-                     <td>{{$all->prix}}</td>
+                    <td>{{$all->prix_jour}}</td>
+                    <td>{{$all->prix_nuit}}</td>
                     <td>{{$all->nb_lit}}</td>
                     <td>{{$all->nb_douche}}</td>
                     <td>{{$all->note}}</td>
@@ -110,7 +112,8 @@
                 <tr>
                   <th>Désignation</th>
                     <th>Type</th>
-                    <th>Tarifs</th>
+                    <th>Tarifs jours</th>
+                    <th>Tarifs nuits</th>
                     <th>Nombre de lits</th>
                     <th>Nombre de douche</th>
                     <th>Note</th>

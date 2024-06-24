@@ -6,12 +6,15 @@ use Illuminate\Http\Request;
 
 use App\Http\Controllers\Calculator;
 use App\Http\Controllers\CartController;
+use Illuminate\Support\Facades\Mail;
 
 use Gloudemans\Shoppingcart\Facades\Cart;
 
 use App\Models\Reservation;
 use App\Models\Shoppingcart;
 use App\Models\Appart;
+
+use App\Mail\ValidateReservationNotif;
 //use App\Models\Cart;
 use DB;
 
@@ -26,6 +29,7 @@ class ReservationController extends Controller
         $appart = htmlspecialchars($request->appart);
         $date_debut = htmlspecialchars($request->date_debut);
         $jours = htmlspecialchars($request->jours);
+        $nuits = htmlspecialchars($request->nuits);
         $mois = htmlspecialchars($request->mois);
         $user_email = htmlspecialchars($request->email);
         $mode_paiement = htmlspecialchars($request->modepaiement);
@@ -55,7 +59,7 @@ class ReservationController extends Controller
         $heure = date('h:i:s');
 
         //on passe à la sauvegarde maintenant
-        $reservation = new Reservation(['id_reservation' => $id_reservation, 'id_client' => $id_client,  'id' => $appart, 'id_mode_paie' => $mode_paiement, 'id_paiement' => $type_paiement, 'validate' => $validate, 'date_debut' => $date_debut, 'date_fin' =>  $depart_date, 'jours' => $jours, 'mois' => $mois, 'montant' => $montant, 'solder' => 0, 'date' => $today, 'heure' => $heure]);
+        $reservation = new Reservation(['id_reservation' => $id_reservation, 'id_client' => $id_client,  'id' => $appart, 'id_mode_paie' => $mode_paiement, 'id_paiement' => $type_paiement, 'validate' => $validate, 'date_debut' => $date_debut, 'date_fin' =>  $depart_date, 'jours' => $jours, 'mois' => $mois, 'nuits'=>$nuits, 'montant' => $montant, 'solder' => 0, 'date' => $today, 'heure' => $heure]);
         $reservation->save();
 
         //on va voir si l'appartement etait dans son panier et donc le vider après reservation
@@ -89,6 +93,7 @@ class ReservationController extends Controller
             $appart = htmlspecialchars($request->appart);
             $date_debut = htmlspecialchars($request->date_debut);
             $jours = htmlspecialchars($request->jours);
+            $nuits = htmlspecialchars($request->nuits);
             $mois = htmlspecialchars($request->mois);
             $user_email = htmlspecialchars($request->email);
             $mode_paiement = htmlspecialchars($request->modepaiement);
@@ -126,7 +131,7 @@ class ReservationController extends Controller
                 $heure = date('h:i:s');
 
                 //on passe à la sauvegarde maintenant
-                $reservation = new Reservation(['id_reservation' => $id_reservation, 'id_client' => $id_client->id_client,  'id' => $appart, 'id_mode_paie' => $mode_paiement, 'id_paiement' => $type_paiement, 'validate' => $validate, 'date_debut' => $date_debut, 'date_fin' =>  $depart_date, 'jours' => $jours, 'mois' => $mois, 'montant' => $montant, 'solder' => 0, 'date' => $today, 'heure' => $heure]);
+                $reservation = new Reservation(['id_reservation' => $id_reservation, 'id_client' => $id_client->id_client,  'id' => $appart, 'id_mode_paie' => $mode_paiement, 'id_paiement' => $type_paiement, 'validate' => $validate, 'date_debut' => $date_debut, 'date_fin' =>  $depart_date, 'jours' => $jours, 'nuits' => $nuits, 'mois' => $mois, 'montant' => $montant, 'solder' => 0, 'date' => $today, 'heure' => $heure]);
                 $reservation->save();
 
                 //on va voir si l'appartement etait dans son panier et donc le vider après reservation
@@ -163,8 +168,15 @@ class ReservationController extends Controller
 
     public function ReservationInProgess($id_client)
     {
-        $get = DB::table('reservations')->join('clients', 'clients.id', '=', 'reservations.id_client')->join('apparts', 'apparts.id', '=', 'reservations.id')->join('paiements', 'paiements.id_paiement', '=', 'reservations.id_paiement')->join('modepaiements', 'modepaiements.id_mode_paie', '=', 'reservations.id_mode_paie')->where('reservations.validate', 0)->where('clients.id', $id_client)
-        ->get(['apparts.id', 'apparts.designation_appart', 'apparts.prix', 'apparts.nb_lit', 'apparts.nb_douche', 'apparts.path', 'apparts.path_descript1', 'apparts.path_descript2', 'apparts.path_descript3', 'apparts.note', 'apparts.internet_wifi', 'apparts.description', 'clients.nom_prenoms', 'clients.tel', 'clients.email', 'paiements.libele_paiement', 'modepaiements.libele_mode_paie', 'reservations.id_reservation', 'reservations.validate', 'reservations.montant', 'reservations.date_debut', 'reservations.date_fin']);
+        $get = DB::table('reservations')
+        ->join('clients', 'clients.id', '=', 'reservations.id_client')
+        ->join('apparts', 'apparts.id', '=', 'reservations.id')
+        ->join('typeapparts', 'typeapparts.id_type_appart', '=', 'apparts.id_type_appart')
+        ->join('paiements', 'paiements.id_paiement', '=', 'reservations.id_paiement')
+        ->join('modepaiements', 'modepaiements.id_mode_paie', '=', 'reservations.id_mode_paie')
+        ->where('reservations.validate', 0)
+        ->where('clients.id', $id_client)
+        ->get(['apparts.id', 'apparts.designation_appart', 'apparts.prix_jour', 'apparts.nb_lit', 'apparts.nb_douche', 'apparts.path', 'apparts.path_descript1', 'apparts.path_descript2', 'apparts.path_descript3', 'apparts.note', 'apparts.internet_wifi', 'apparts.description', 'clients.nom_prenoms', 'clients.tel', 'clients.email', 'paiements.libele_paiement', 'paiements.id_paiement', 'modepaiements.libele_mode_paie', 'reservations.id_reservation', 'reservations.validate', 'reservations.montant', 'reservations.date_debut', 'reservations.date_fin', 'typeapparts.libele_type_appart']);
         
         //$get = DB::table('apparts')->where('id', '>=', $id)->get();
 
@@ -174,8 +186,13 @@ class ReservationController extends Controller
     public function SelectAReservation($id_reservation)
     {
         //récupérer une réservation précise ici,
-         $get = DB::table('reservations')->join('clients', 'clients.id', '=', 'reservations.id_client')->join('apparts', 'apparts.id', '=', 'reservations.id')->join('paiements', 'paiements.id_paiement', '=', 'reservations.id_paiement')->join('modepaiements', 'modepaiements.id_mode_paie', '=', 'reservations.id_mode_paie')->where('reservations.id_reservation', '=', $id_reservation)
-        ->get(['apparts.id', 'apparts.designation_appart', 'apparts.prix', 'apparts.nb_lit', 'apparts.nb_douche', 'apparts.path', 'apparts.path_descript1', 'apparts.path_descript2', 'apparts.path_descript3', 'apparts.note', 'apparts.internet_wifi', 'apparts.description', 'clients.nom_prenoms', 'clients.tel', 'clients.email', 'paiements.libele_paiement', 'modepaiements.libele_mode_paie', 'modepaiements.id_mode_paie', 'reservations.id_paiement', 'reservations.id_reservation', 'reservations.validate', 'reservations.montant', 'reservations.date_debut', 'reservations.date_fin', 'reservations.jours', 'reservations.mois']);
+         $get = DB::table('reservations')
+         ->join('clients', 'clients.id', '=', 'reservations.id_client')
+         ->join('apparts', 'apparts.id', '=', 'reservations.id')
+         ->join('paiements', 'paiements.id_paiement', '=', 'reservations.id_paiement')
+         ->join('modepaiements', 'modepaiements.id_mode_paie', '=', 'reservations.id_mode_paie')
+         ->where('reservations.id_reservation', '=', $id_reservation)
+        ->get(['apparts.id', 'apparts.designation_appart', 'apparts.prix_jour', 'apparts.nb_lit', 'apparts.nb_douche', 'apparts.path', 'apparts.path_descript1', 'apparts.path_descript2', 'apparts.path_descript3', 'apparts.note', 'apparts.internet_wifi', 'apparts.description', 'clients.nom_prenoms', 'clients.tel', 'clients.email', 'paiements.libele_paiement', 'modepaiements.libele_mode_paie', 'modepaiements.id_mode_paie', 'reservations.id_paiement', 'reservations.id_reservation', 'reservations.validate', 'reservations.montant', 'reservations.date_debut', 'reservations.date_fin', 'reservations.jours', 'reservations.mois']);
         
         //$get = DB::table('apparts')->where('id', '>=', $id)->get();
 
@@ -243,7 +260,7 @@ class ReservationController extends Controller
         ->join('paiements', 'paiements.id_paiement', '=', 'reservations.id_paiement')
         ->join('modepaiements', 'modepaiements.id_mode_paie', '=', 'reservations.id_mode_paie')
         ->where('reservations.date_fin', '>', $today)
-        ->get(['apparts.id', 'apparts.designation_appart', 'apparts.prix', 'apparts.nb_lit', 'apparts.nb_douche', 'apparts.path', 'apparts.path_descript1', 'apparts.path_descript2', 'apparts.path_descript3', 'apparts.note', 'apparts.internet_wifi', 'apparts.description', 'clients.nom_prenoms', 'clients.tel', 'clients.email', 'paiements.libele_paiement', 'modepaiements.libele_mode_paie', 'modepaiements.id_mode_paie', 'reservations.id_paiement', 'reservations.id_reservation', 'reservations.validate', 'reservations.montant', 'reservations.date_debut', 'reservations.date_fin', 'reservations.jours', 'reservations.mois', 'reservations.date', 'reservations.heure', 'reservations.solder']);
+        ->get(['apparts.id', 'apparts.designation_appart', 'apparts.prix_jour', 'apparts.nb_lit', 'apparts.nb_douche', 'apparts.path', 'apparts.path_descript1', 'apparts.path_descript2', 'apparts.path_descript3', 'apparts.note', 'apparts.internet_wifi', 'apparts.description', 'clients.nom_prenoms', 'clients.tel', 'clients.email', 'paiements.libele_paiement', 'modepaiements.libele_mode_paie', 'modepaiements.id_mode_paie', 'reservations.id_paiement', 'reservations.id_reservation', 'reservations.validate', 'reservations.montant', 'reservations.date_debut', 'reservations.date_fin', 'reservations.jours', 'reservations.mois', 'reservations.date', 'reservations.heure', 'reservations.solder']);
         
         return $get;
     }
@@ -255,7 +272,7 @@ class ReservationController extends Controller
         $get = DB::table('reservations')->join('clients', 'clients.id', '=', 'reservations.id_client')->join('apparts', 'apparts.id', '=', 'reservations.id')->join('paiements', 'paiements.id_paiement', '=', 'reservations.id_paiement')->join('modepaiements', 'modepaiements.id_mode_paie', '=', 'reservations.id_mode_paie')
         ->where('reservations.date_fin', '>', $today)
         ->where('reservations.validate', 0)
-        ->get(['apparts.id', 'apparts.designation_appart', 'apparts.prix', 'apparts.nb_lit', 'apparts.nb_douche', 'apparts.path', 'apparts.path_descript1', 'apparts.path_descript2', 'apparts.path_descript3', 'apparts.note', 'apparts.internet_wifi', 'apparts.description', 'clients.nom_prenoms', 'clients.tel', 'clients.email', 'paiements.libele_paiement', 'modepaiements.libele_mode_paie', 'modepaiements.id_mode_paie', 'reservations.id_paiement', 'reservations.id_reservation', 'reservations.validate', 'reservations.montant', 'reservations.date_debut', 'reservations.date_fin', 'reservations.jours', 'reservations.mois', 'reservations.date', 'reservations.heure']);
+        ->get(['apparts.id', 'apparts.designation_appart', 'apparts.prix_jour', 'apparts.nb_lit', 'apparts.nb_douche', 'apparts.path', 'apparts.path_descript1', 'apparts.path_descript2', 'apparts.path_descript3', 'apparts.note', 'apparts.internet_wifi', 'apparts.description', 'clients.nom_prenoms', 'clients.tel', 'clients.email', 'paiements.libele_paiement', 'modepaiements.libele_mode_paie', 'modepaiements.id_mode_paie', 'reservations.id_paiement', 'reservations.id_reservation', 'reservations.validate', 'reservations.montant', 'reservations.date_debut', 'reservations.date_fin', 'reservations.jours', 'reservations.mois', 'reservations.date', 'reservations.heure']);
         
         //$get = DB::table('apparts')->where('id', '>=', $id)->get();
 
@@ -271,7 +288,22 @@ class ReservationController extends Controller
             $affected = DB::table('reservations')
               ->where('id_reservation', $lareservation)
               ->update(['validate' => 1]);
+
+            //récuperer la reservation en question
+            $la_reservation = DB::table('reservations')
+            ->join('clients', 'clients.id', '=', 'reservations.id_client')
+            ->join('apparts', 'apparts.id', '=', 'reservations.id')
+            ->where('reservations.id_reservation', '=', $request->id_reservation)
+           ->get(['apparts.id', 'apparts.designation_appart',  'apparts.description', 'clients.nom_prenoms', 'clients.tel', 'clients.email', 'reservations.id_reservation',  'reservations.date',]);
            
+
+            foreach($la_reservation as $la_reservation)
+            {
+                $data = ['email' => $la_reservation->email, 'date_reserv' => $la_reservation->date, 'appart' => $la_reservation->designation_appart];
+          
+                Mail::to($la_reservation->email)->send(new ValidateReservationNotif($data));
+            }
+
             return redirect('reservations')->with('success', 'La réservation a été validée');
 
        
@@ -312,7 +344,7 @@ class ReservationController extends Controller
         ->where('id_reservation', $id)
         ->join('apparts', 'apparts.id', '=', 'reservations.id')->join('paiements', 'paiements.id_paiement', '=', 'reservations.id_paiement')
         ->join('modepaiements', 'modepaiements.id_mode_paie', '=', 'reservations.id_mode_paie')
-        ->get(['apparts.id', 'apparts.designation_appart', 'apparts.prix', 'apparts.nb_lit', 'apparts.nb_douche', 'apparts.path', 'apparts.path_descript1', 'apparts.path_descript2', 'apparts.path_descript3', 'apparts.note', 'apparts.internet_wifi', 'apparts.description', 'clients.nom_prenoms', 'clients.tel', 'clients.email', 'paiements.libele_paiement', 'modepaiements.libele_mode_paie', 'modepaiements.id_mode_paie', 'reservations.id_paiement', 'reservations.id_reservation', 'reservations.validate', 'reservations.montant', 'reservations.date_debut', 'reservations.date_fin', 'reservations.jours', 'reservations.mois', 'reservations.date', 'reservations.heure', 'reservations.solder']);
+        ->get(['apparts.id', 'apparts.designation_appart', 'apparts.prix_jour', 'apparts.nb_lit', 'apparts.nb_douche', 'apparts.path', 'apparts.path_descript1', 'apparts.path_descript2', 'apparts.path_descript3', 'apparts.note', 'apparts.internet_wifi', 'apparts.description', 'clients.nom_prenoms', 'clients.tel', 'clients.email', 'paiements.libele_paiement', 'modepaiements.libele_mode_paie', 'modepaiements.id_mode_paie', 'reservations.id_paiement', 'reservations.id_reservation', 'reservations.validate', 'reservations.montant', 'reservations.date_debut', 'reservations.date_fin', 'reservations.jours', 'reservations.mois', 'reservations.date', 'reservations.heure', 'reservations.solder']);
         
         return $get;
     }

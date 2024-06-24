@@ -14,7 +14,8 @@ class Appart extends Model
       protected $fillable = [
         'designation_appart',
         'id_type_appart',
-        'prix',
+        'prix_jour',
+        'prix_nuit',
         'nb_lit',
         'nb_douche',
         'path',

@@ -18,7 +18,7 @@ class AppartController extends Controller
 
     public function getWithId($id)
     {
-        $get = DB::table('apparts')->join('typeapparts', 'typeapparts.id_type_appart', '=', 'apparts.id_type_appart')->where('apparts.id', '>', $id)->orderByRaw('apparts.id', 'asc')->get(['apparts.id', 'apparts.designation_appart', 'apparts.prix', 'apparts.nb_lit', 'apparts.nb_douche', 'apparts.path', 'apparts.path_descript1', 'apparts.path_descript2', 'apparts.path_descript3', 'apparts.note', 'apparts.internet_wifi', 'apparts.description', 'typeapparts.id_type_appart', 'typeapparts.libele_type_appart'])->take(3);
+        $get = DB::table('apparts')->join('typeapparts', 'typeapparts.id_type_appart', '=', 'apparts.id_type_appart')->where('apparts.id', '>', $id)->orderByRaw('apparts.id', 'asc')->get(['apparts.id', 'apparts.designation_appart', 'apparts.prix_jour', 'apparts.nb_lit', 'apparts.nb_douche', 'apparts.path', 'apparts.path_descript1', 'apparts.path_descript2', 'apparts.path_descript3', 'apparts.note', 'apparts.internet_wifi', 'apparts.description', 'typeapparts.id_type_appart', 'typeapparts.libele_type_appart'])->take(3);
         
         //$get = DB::table('apparts')->where('id', '>=', $id)->get();
 
@@ -45,14 +45,14 @@ class AppartController extends Controller
 
     public function getFirstThree()
     {
-        $get = DB::table('apparts')->join('typeapparts', 'typeapparts.id_type_appart', '=', 'apparts.id_type_appart')->orderByRaw('apparts.id', 'asc')->take(3)->get(['apparts.id', 'apparts.designation_appart', 'apparts.prix', 'apparts.nb_lit', 'apparts.nb_douche', 'apparts.path', 'apparts.path_descript1', 'apparts.path_descript2', 'apparts.path_descript3', 'apparts.note', 'apparts.internet_wifi', 'apparts.description', 'typeapparts.id_type_appart', 'typeapparts.libele_type_appart']);
+        $get = DB::table('apparts')->join('typeapparts', 'typeapparts.id_type_appart', '=', 'apparts.id_type_appart')->orderByRaw('apparts.id', 'asc')->take(3)->get(['apparts.id', 'apparts.designation_appart', 'apparts.prix_jour', 'apparts.nb_lit', 'apparts.nb_douche', 'apparts.path', 'apparts.path_descript1', 'apparts.path_descript2', 'apparts.path_descript3', 'apparts.note', 'apparts.internet_wifi', 'apparts.description', 'typeapparts.id_type_appart', 'typeapparts.libele_type_appart']);
 
         return $get;
     }
 
     public function GetLast($id)
     {
-        $get = DB::table('apparts')->join('typeapparts', 'typeapparts.id_type_appart', '=', 'apparts.id_type_appart')->orderByRaw('apparts.id', 'asc')->where('apparts.id', '>', $id)->get(['apparts.id', 'apparts.designation_appart', 'apparts.prix', 'apparts.nb_lit', 'apparts.nb_douche', 'apparts.path', 'apparts.path_descript1', 'apparts.path_descript2', 'apparts.path_descript3', 'apparts.note', 'apparts.internet_wifi', 'apparts.description', 'typeapparts.id_type_appart', 'typeapparts.libele_type_appart'])->take(2);
+        $get = DB::table('apparts')->join('typeapparts', 'typeapparts.id_type_appart', '=', 'apparts.id_type_appart')->orderByRaw('apparts.id', 'asc')->where('apparts.id', '>', $id)->get(['apparts.id', 'apparts.designation_appart', 'apparts.prix_jour', 'apparts.nb_lit', 'apparts.nb_douche', 'apparts.path', 'apparts.path_descript1', 'apparts.path_descript2', 'apparts.path_descript3', 'apparts.note', 'apparts.internet_wifi', 'apparts.description', 'typeapparts.id_type_appart', 'typeapparts.libele_type_appart'])->take(2);
 
         return $get;
     }
@@ -75,14 +75,16 @@ class AppartController extends Controller
 
         $today = date('Y-m-d');
 
-        $get =  DB::table('reservations')->join('apparts', 'apparts.id', '=', 'reservations.id')->where('date_fin', '<',$today)->where('validate', 1)->where('reservations.id', '=', $id)->get(['apparts.id', 'apparts.designation_appart', 'apparts.prix', 'apparts.path', 'reservations.date_debut', 'reservations.date_fin']);
+        $get =  DB::table('reservations')->join('apparts', 'apparts.id', '=', 'reservations.id')->where('date_fin', '<',$today)->where('validate', 1)->where('reservations.id', '=', $id)->get(['apparts.id', 'apparts.designation_appart', 'apparts.prix_jour', 'apparts.path', 'reservations.date_debut', 'reservations.date_fin']);
 
         return $get;
     }
 
     public function AllAppart()
     {
-        $get = DB::table('apparts')->join('typeapparts', 'typeapparts.id_type_appart', '=', 'apparts.id_type_appart')->orderByRaw('apparts.id', 'asc')->get(['apparts.id', 'apparts.designation_appart', 'apparts.prix', 'apparts.nb_lit', 'apparts.nb_douche', 'apparts.path', 'apparts.path_descript1', 'apparts.path_descript2', 'apparts.path_descript3', 'apparts.note', 'apparts.internet_wifi', 'apparts.description', 'typeapparts.id_type_appart', 'typeapparts.libele_type_appart']);
+        $get = DB::table('apparts')->join('typeapparts', 'typeapparts.id_type_appart', '=', 'apparts.id_type_appart')
+        ->orderByRaw('apparts.id', 'asc')
+        ->get(['apparts.id', 'apparts.designation_appart', 'apparts.prix_jour', 'apparts.prix_nuit', 'apparts.nb_lit', 'apparts.nb_douche', 'apparts.path', 'apparts.path_descript1', 'apparts.path_descript2', 'apparts.path_descript3', 'apparts.note', 'apparts.internet_wifi', 'apparts.description', 'typeapparts.id_type_appart', 'typeapparts.libele_type_appart']);
 
         return $get;
     }
@@ -92,7 +94,8 @@ class AppartController extends Controller
     {
         $le_nom = $request->thename;
         $type = $request->type;
-        $prix = $request->prix;
+        $prix_jour = $request->prix_j;
+        $prix_nuit = $request->prix_n;
         $lits = $request->lits;
         $douches = $request->douches;
         $wifi = $request->wifi;
@@ -114,7 +117,7 @@ class AppartController extends Controller
 
         //dd($path);
         //on passe à la sauvegarde maintenant
-        $appart = new Appart(['designation_appart' => $le_nom, 'id_type_appart' => $type,  'prix' => $prix, 'nb_lit' => $lits, 'nb_douche' => $douches, 'path' => $path, 'internet_wifi' => $wifi, 'description' =>  $description]);
+        $appart = new Appart(['designation_appart' => $le_nom, 'id_type_appart' => $type,  'prix_jour' => $prix_j, 'prix_nuit' => $prix_n, 'nb_lit' => $lits, 'nb_douche' => $douches, 'path' => $path, 'internet_wifi' => $wifi, 'description' =>  $description]);
         $appart->save();
 
         return redirect('add_appart')->with('success', 'enregistrement effectué avec succès!');
@@ -160,7 +163,7 @@ class AppartController extends Controller
         $get = DB::table('apparts')
         ->where('id', $id)
         ->join('typeapparts', 'typeapparts.id_type_appart', '=', 'apparts.id_type_appart')
-        ->get(['apparts.id', 'apparts.designation_appart', 'apparts.prix', 'apparts.nb_lit', 'apparts.nb_douche', 'apparts.path', 'apparts.path_descript1', 'apparts.path_descript2', 'apparts.path_descript3', 'apparts.note', 'apparts.internet_wifi', 'apparts.description', 'typeapparts.id_type_appart', 'typeapparts.libele_type_appart']);
+        ->get(['apparts.id', 'apparts.designation_appart', 'apparts.prix_jour', 'apparts.nb_lit', 'apparts.nb_douche', 'apparts.path', 'apparts.path_descript1', 'apparts.path_descript2', 'apparts.path_descript3', 'apparts.note', 'apparts.internet_wifi', 'apparts.description', 'typeapparts.id_type_appart', 'typeapparts.libele_type_appart']);
 
         //dd($get);
         return $get;
@@ -202,7 +205,7 @@ class AppartController extends Controller
         //on passe à la sauvegarde maintenant
         $appart_update = DB::table('apparts')
             ->where('id', $request->id_appart)
-            ->update(['designation_appart' => $le_nom, 'id_type_appart' => $type,  'prix' => $prix, 'nb_lit' => $lits, 'nb_douche' => $douches, 'internet_wifi' => $wifi, 'description' =>  $description]);
+            ->update(['designation_appart' => $le_nom, 'id_type_appart' => $type,  'prix_jour' => $prix, 'nb_lit' => $lits, 'nb_douche' => $douches, 'internet_wifi' => $wifi, 'description' =>  $description]);
         //$appart->save();
 
         return redirect('appartements_gest')->with('success', 'Modification effectué avec succès!');

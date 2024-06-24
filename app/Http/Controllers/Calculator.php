@@ -13,12 +13,12 @@ class Calculator extends Controller
 {
     //Celui qui fait toute sorte de calcul
 
-    public function AmountReservation($id_appart, $jours, $mois, $date_entree)
+    public function AmountReservation($id_appart, $jours, $nuits, $mois, $date_entree)
     {
         //L'appart en question
         $appart = Appart::where('id', $id_appart)->first();
 
-        //Voir qu'est ce qui a été rempli parmi le jour et le mois
+        //Voir qu'est ce qui a été rempli parmi le jour et le mois et la nuit
         if($mois != 0)//il a rempli le mois
         {
             //chaque mois n'as pas le meme nombre de jour, il faut donc déterminer le mois en question
@@ -48,7 +48,7 @@ class Calculator extends Controller
                 $tmp = floor( ($tmp - $retour['hour'])  /24 );
                 $retour['day'] = $tmp;
 
-                $amount = $appart->prix * $retour['day'] ;
+                $amount = $appart->prix_jour * $retour['day'] ;
             }
             else //y a des jours dessus encore
             {
@@ -75,15 +75,42 @@ class Calculator extends Controller
 
                 $le_nombre_jours = $retour['day'] + $jours;
 
-                $amount = $appart->prix * $le_nombre_jours;
+                $amount = $appart->prix_jour * $le_nombre_jours;
+            }
+
+            if($nuit != 0)// il a rempli le nombre de nuit et pas le jours
+            {
+                $departtime =strtotime($date_entree.'+'.$mois.' months');
+                $depart = date("Y-m-d", $departtime);
+
+                //on doit utiliser les timestamps pour la différence des dates
+                $timestamp1 = strtotime($depart);
+                $timestamp2 = strtotime($date_entree);
+
+                $diff = $timestamp1 - $timestamp2;
+
+                $tmp = $diff;
+                $retour['second'] = $tmp % 60;
+             
+                $tmp = floor( ($tmp - $retour['second']) /60 );
+                $retour['minute'] = $tmp % 60;
+             
+                $tmp = floor( ($tmp - $retour['minute'])/60 );
+                $retour['hour'] = $tmp % 24;
+             
+                $tmp = floor( ($tmp - $retour['hour'])  /24 );
+                $retour['day'] = $tmp;
+
+                $le_nombre_jours = $retour['day'];
+
+                $amount = ($appart->prix_jour * $le_nombre_jours) + ($appart->prix_nuit * $nuits);
             }
 
         }
-        else//il a rempli uniquement les jours 
+        else//il a rempli uniquement les jours ou les nuits
         {
-            $amount = $jours * $appart->prix;
+            $amount = ($jours * $appart->prix_jour) + ($nuits * $appart->prix_nuit);
         }
-
 
         return $amount ;
         

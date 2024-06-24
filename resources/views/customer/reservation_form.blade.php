@@ -188,6 +188,13 @@
 
                                     <div class="col-md-6">
                                         <div class="form-floating">
+                                            <input type="number" class="form-control" value="0" name="nuits" min="0" max="12"required>
+                                            <label for="">Nombre de nuitées</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
                                             <input type="email" class="form-control" id="" name="email" required>
                                             <label for="">Email du Client(*)</label>
                                         </div>

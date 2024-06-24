@@ -75,7 +75,11 @@
                             <div class="room-item shadow rounded overflow-hidden">
                                 <div class="position-relative"><!--l'image-->
                                     <img class="img-fluid" src="{{Storage::url($get->path)}}" alt="{{$get->designation_appart}}">
-                                    <small class="position-absolute start-0 top-100 translate-middle-y bg-primary text-white rounded py-1 px-3 ms-4">{{$get->montant}} XOF A payer</small>
+                                    <small class="position-absolute start-0 top-100 translate-middle-y bg-primary text-white rounded py-1 px-3 ms-4">
+                                    @php
+                                        echo number_format($get->montant, 0, ',', ' ')." XOF A payer";
+                                    @endphp 
+                                    </small>
                                 </div>
                                 <div class="p-4 mt-2">
                                     <div class="d-flex justify-content-between mb-3"><!--nom et note-->
@@ -102,6 +106,27 @@
                                           
                                         
                                     </div>
+                                    <p class="text-body mb-3">
+                                        <b>TYPE DE PAIEMENT :</b> {{$get->libele_type_appart}}<br>
+                                        @if($get->id_paiement == 3)
+                                            @php 
+                                                //Faire une division du montant par 3
+                                                $mt = $get->montant/2;
+                                                echo 'Vous payez <b>'.number_format($mt, 0, ',', ' ').' XOF</b> par tranche';
+                                            @endphp
+                                            
+                                        @endif
+
+                                        @if($get->id_paiement == 4)
+                                            @php 
+                                                //Faire une division du montant par 4
+                                                $mt = $get->montant/3;
+                                                echo 'Vous payez <b>'.number_format($mt, 0, ',', ' ').' XOF</b> par tranche';
+                                            @endphp
+                                         
+                                        @endif
+                                        
+                                    </p>
                                     <p class="text-body mb-3"><b>EN COURS DE VALIDATION PAR L'ADMINISTRATEUR</b></p>
                                    <div class="d-flex justify-content-between">
                                         <a class="btn btn-sm btn-primary rounded py-2 px-4" href="delete/reservation/{{$get->id_reservation}}">Supprimer</a>
