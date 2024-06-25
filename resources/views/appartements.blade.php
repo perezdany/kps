@@ -84,7 +84,7 @@
                                 <div class="position-relative"><!--l'image-->
                                     <img class="img-fluid" src="{{Storage::url($get->path)}}" alt="{{$get->designation_appart}}">
                                     <small class="position-absolute start-0 top-100 translate-middle-y bg-primary text-white rounded py-1 px-3 ms-4">
-                                    {{$get->prix_jour}}/Jour</small>
+                                    {{$get->prix_jour}}/Jour & {{$get->prix_nuit}}/Nuit</small>
                                     <br>
                             
                                 </div>
@@ -108,7 +108,7 @@
                                         @endif
                                         
                                     </div>
-                                    <p class="text-body mb-3">Découvrez le confort dans cet appartement de {{$get->note}} pour <b>{{$get->prix_nuit}} LA NUIT </b>. Vous pouvez voir plus de détails en cliquant sur le bouton</p>
+                                    <p class="text-body mb-3">Découvrez le confort dans cet appartement de {{$get->note}} étoiles pour <b>{{$get->prix_nuit}} LA NUIT </b> ou  <b>{{$get->prix_jour}} LE JOUR </b>. Vous pouvez voir plus de détails en cliquant sur le bouton</p>
                                     <div class="d-flex justify-content-between">
                                         <form action="display_details", method="post">
                                             @csrf

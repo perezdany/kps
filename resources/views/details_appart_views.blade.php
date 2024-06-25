@@ -58,7 +58,8 @@
                             <div class="room-item shadow rounded overflow-hidden">
                                 <div class="text-center"><!--l'image-->
                                     <img class="img-fluid" src="{{Storage::url($get->path)}}" alt="{{$get->designation_appart}}">
-                                    <small class="start-0 top-100 translate-middle-y bg-primary text-white rounded py-1 px-2 ms-4">{{$get->prix}} XOF </small>
+                                    <small class="start-0 top-100 translate-middle-y bg-primary text-white rounded py-1 px-2 ms-4">
+                                    {{$get->prix_nuit}} XOF la nuit ou  {{$get->prix_jour}} XOF le jour</small>
                                 </div>
                                 <div class="p-4 mt-2">
                                     <div class="d-flex justify-content-between mb-3"><!--nom et note-->
@@ -95,7 +96,7 @@
                                             @csrf
                                             <input type="text" name="id_appart" value="{{$get->id}}" style="display: none;">
                                             <input type="text" name="user_email" value="{{auth()->user()->email}}" style="display: none;">
-                                            <button class="btn btn-sm btn-dark rounded py-2 px-4" >Ajouter au panier</buton>
+                                            <button class="btn btn-sm btn-dark rounded py-2 px-4" >Ajouter au panier</button>
                                         </form>
 
                                     @else

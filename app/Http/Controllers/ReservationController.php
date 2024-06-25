@@ -260,7 +260,7 @@ class ReservationController extends Controller
         ->join('paiements', 'paiements.id_paiement', '=', 'reservations.id_paiement')
         ->join('modepaiements', 'modepaiements.id_mode_paie', '=', 'reservations.id_mode_paie')
         ->where('reservations.date_fin', '>', $today)
-        ->get(['apparts.id', 'apparts.designation_appart', 'apparts.prix_jour', 'apparts.nb_lit', 'apparts.nb_douche', 'apparts.path', 'apparts.path_descript1', 'apparts.path_descript2', 'apparts.path_descript3', 'apparts.note', 'apparts.internet_wifi', 'apparts.description', 'clients.nom_prenoms', 'clients.tel', 'clients.email', 'paiements.libele_paiement', 'modepaiements.libele_mode_paie', 'modepaiements.id_mode_paie', 'reservations.id_paiement', 'reservations.id_reservation', 'reservations.validate', 'reservations.montant', 'reservations.date_debut', 'reservations.date_fin', 'reservations.jours', 'reservations.mois', 'reservations.date', 'reservations.heure', 'reservations.solder']);
+        ->get(['apparts.id', 'apparts.designation_appart', 'apparts.prix_jour', 'apparts.nb_lit', 'apparts.nb_douche', 'apparts.path', 'apparts.path_descript1', 'apparts.path_descript2', 'apparts.path_descript3', 'apparts.note', 'apparts.internet_wifi', 'apparts.description', 'clients.nom_prenoms', 'clients.tel', 'clients.email', 'paiements.libele_paiement', 'paiements.id_paiement', 'modepaiements.libele_mode_paie', 'modepaiements.id_mode_paie', 'reservations.id_paiement', 'reservations.id_reservation', 'reservations.validate', 'reservations.montant', 'reservations.date_debut', 'reservations.date_fin', 'reservations.jours', 'reservations.mois', 'reservations.date', 'reservations.heure', 'reservations.solder', 'reservations.date', 'reservations.montant_paye']);
         
         return $get;
     }
@@ -338,13 +338,54 @@ class ReservationController extends Controller
             ]);
     }
 
+    public function ToPayForm(Request $request)
+    {
+        //dd($request->id_reservation);
+        return view('admin/attempt_to_pay', [
+            'id' => $request->id_reservation,
+            ]);
+    }
+
+    public function Pay(Request $request)
+    {
+        $lareservation = htmlspecialchars($request->id_reservation);
+        $pay = $request->pay;
+
+        //Récupérer l'ancien montant payé pour le concatener au nouveau montant
+        $get = Reservation::where('id_reservation' , $lareservation)->get();
+        foreach($get as $get)
+        {
+            $old = $get->montant_paye;
+            //on concatene maintenant
+            $to_pay = $old + $pay;
+
+            $affected = DB::table('reservations')
+            ->where('id_reservation', $lareservation)
+            ->update(['montant_paye' => $to_pay]);
+  
+            //on va vérifier si le montant paye est égal au montant de la réservation, on solde à même temps
+            if($to_pay == $get->montant)
+            {
+                $affected = DB::table('reservations')
+                ->where('id_reservation', $lareservation)
+                ->update(['solder' => 1]);
+      
+                return redirect('reservations')->with('success', 'La réservation a été soldée');
+            }
+
+            return redirect('reservations')->with('success', 'La réservation a été modifiée');
+        }
+            
+       
+    }
+
     public function GetReservationById($id)
     {
         $get = DB::table('reservations')->join('clients', 'clients.id', '=', 'reservations.id_client')
         ->where('id_reservation', $id)
         ->join('apparts', 'apparts.id', '=', 'reservations.id')->join('paiements', 'paiements.id_paiement', '=', 'reservations.id_paiement')
         ->join('modepaiements', 'modepaiements.id_mode_paie', '=', 'reservations.id_mode_paie')
-        ->get(['apparts.id', 'apparts.designation_appart', 'apparts.prix_jour', 'apparts.nb_lit', 'apparts.nb_douche', 'apparts.path', 'apparts.path_descript1', 'apparts.path_descript2', 'apparts.path_descript3', 'apparts.note', 'apparts.internet_wifi', 'apparts.description', 'clients.nom_prenoms', 'clients.tel', 'clients.email', 'paiements.libele_paiement', 'modepaiements.libele_mode_paie', 'modepaiements.id_mode_paie', 'reservations.id_paiement', 'reservations.id_reservation', 'reservations.validate', 'reservations.montant', 'reservations.date_debut', 'reservations.date_fin', 'reservations.jours', 'reservations.mois', 'reservations.date', 'reservations.heure', 'reservations.solder']);
+        ->get(['apparts.id', 'apparts.designation_appart', 'apparts.prix_jour', 'apparts.prix_nuit',  'apparts.nb_lit', 'apparts.nb_douche', 'apparts.path', 'apparts.path_descript1', 'apparts.path_descript2', 'apparts.path_descript3', 'apparts.note', 'apparts.internet_wifi', 'apparts.description', 'clients.nom_prenoms', 'clients.tel', 'clients.email', 'paiements.libele_paiement', 'paiements.id_paiement', 'modepaiements.libele_mode_paie', 'modepaiements.id_mode_paie', 'reservations.id_paiement', 'reservations.id_reservation', 'reservations.validate', 'reservations.montant', 'reservations.date_debut', 'reservations.date_fin', 'reservations.jours', 'reservations.nuits', 'reservations.mois', 'reservations.date', 'reservations.heure', 'reservations.montant_paye', 'reservations.solder']);
         
         return $get;
     }

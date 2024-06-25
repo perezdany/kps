@@ -317,10 +317,13 @@
                             <div class="col-md-6">
                                 <h6 class="section-title text-start text-primary text-uppercase mb-4">Services</h6>
                                 <a class="btn btn-link" href="">Nourriture & Restaurant</a>
-                                <a class="btn btn-link" href="">Spa & Fitness</a>
-                                <a class="btn btn-link" href="">Sports & Gaming</a>
+                                <!--<a class="btn btn-link" href="">Spa & Fitness</a>-->
+                                <!--<a class="btn btn-link" href="">Sports & Gaming</a>-->
+                                <a class="btn btn-link" href="">Chambre et appartements(Hôtelerie)</a>
+                                <a class="btn btn-link" href="">Vente et location de maison</a>
+                                <a class="btn btn-link" href="">Vente de terrain</a>
                                 <a class="btn btn-link" href="">Evènements & Fêtes</a>
-                                <a class="btn btn-link" href="">GYM & Yoga</a>
+                                
                             </div>
                         </div>
                     </div>

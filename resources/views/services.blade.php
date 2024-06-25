@@ -47,7 +47,28 @@ Un accompagnement sur-mesure</p>
                             <p class="text-body mb-0">Achetezvos terrains chez nous. Nous accompagnons dans toutes les démarches. <br>Vous pouvez nous faire confiance</p>
                         </a>
                     </div>
-                   
+                    <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
+                         <a class="service-item rounded" href="">
+                            <div class="service-icon bg-transparent border rounded p-1">
+                                <div class="w-100 h-100 border rounded d-flex align-items-center justify-content-center">
+                                    <i class="fa fa-glass-cheers fa-2x text-primary"></i>
+                                </div>
+                            </div>Nourritures et restaurants</h5>
+                            <p class="text-body mb-0">Espace disponible pour vous restairer avec les spécialité d'ici et d'ailleurs.</p>
+                        </a>
+                    </div>
+                    <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
+                        <a class="service-item rounded" href="">
+                            <div class="service-icon bg-transparent border rounded p-1">
+                                <div class="w-100 h-100 border rounded d-flex align-items-center justify-content-center">
+                                    <i class="fa fa-glass-cheers fa-2x text-primary"></i>
+                                </div>
+                            </div>Evènements et cérémonies</h5>
+                            <p class="text-body mb-0">Espace disponible pour les évènemets tels que les baptèmes, les mariages, les anniversaires, etc.</p>
+                        </a>
+                    </div>
+                    <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">   
+                    </div>
                 </div>
             </div>
         </div>

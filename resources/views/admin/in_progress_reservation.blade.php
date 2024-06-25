@@ -65,7 +65,11 @@
                       @endif
                     </td>
                     <td>
-                       <button class="btn btn-danger"><span class="fa fa-trash"></span></button>
+                      <form action="deleteReservation" method="post">
+                        @csrf
+                        <input type="text" name="id_reservation" style="display: none;" value="{{$all->id_reservation}}">
+                        <button class="btn btn-danger"><span class="fa fa-trash"></span></button>
+                      </form>
                       @if($all->validate == 0)
                         <form action="validate" method="post">
                           @csrf
@@ -75,7 +79,11 @@
                         
                       
                       @endif
-                       <button class="btn btn-primary"><span class="fa fa-edit"></span></button>
+                      <form action="edit_reserv_form" method="post">
+                        @csrf
+                        <input type="text" value="{{$all->id_reservation}}" style="display:none;" name="id_reservation">
+                        <button class="btn btn-primary"><span class="fa fa-edit"></span></button>
+                      </form>
                     </td>
 
                     

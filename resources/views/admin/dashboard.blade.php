@@ -187,67 +187,74 @@
       <!-- Main row -->
       <div class="row">
         <!-- Left col -->
-        <div class="col-md-8">
-          <!-- MAP & BOX PANE -->
-          
+        @php
+          $get = (new UserController())->getDepartmentLevel(auth()->user()->id);
+        @endphp
+        
+        @foreach($get as $get)
+          @if($get->niveau == 1)
+            <div class="col-md-8">
+              <!-- MAP & BOX PANE -->
+              <!-- TABLE: LATEST ORDERS -->
+              <div class="box box-info">
+                <div class="box-header with-border">
+                  <h3 class="box-title">Réservations en attentes de validations</h3>
 
-          <!-- TABLE: LATEST ORDERS -->
-          <div class="box box-info">
-            <div class="box-header with-border">
-              <h3 class="box-title">Réservations en attentes de validations</h3>
-
-              <div class="box-tools pull-right">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                </button>
-                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-              </div>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <div class="table-responsive">
-                <table class="table no-margin">
-                  <thead>
-                  <tr>
-                    <th>Horodatage</th>
-                    <th>Client</th>
-                    <th>Appartement</th>
-                    <th>Date d'entrée</th>
-                    <th>Date de sortie</th>
-                    <th>Type de paiement</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  @php
-                     $all = (new ReservationController())->AllPoolReservation();
-                  @endphp
-                  @foreach($all as $user)
-                    <tr>
-                    <td>{{$user->date}} à {{$user->heure}}</td>
-                    <td>{{$user->nom_prenoms}}</td>
-                    <td>{{$user->designation_appart}}</td>
-                    <td>{{$user->date_debut}}</td>
-                    <td>{{$user->date_fin}}</td>
-                    <td>{{$user->libele_paiement}}</td>
-                    </tr>
-                  @endforeach
-                 
+                  <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                  </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                  <div class="table-responsive">
+                    <table class="table no-margin">
+                      <thead>
+                      <tr>
+                        <th>Horodatage</th>
+                        <th>Client</th>
+                        <th>Appartement</th>
+                        <th>Date d'entrée</th>
+                        <th>Date de sortie</th>
+                        <th>Type de paiement</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      @php
+                        $all = (new ReservationController())->AllPoolReservation();
+                      @endphp
+                      @foreach($all as $user)
+                        <tr>
+                        <td>{{$user->date}} à {{$user->heure}}</td>
+                        <td>{{$user->nom_prenoms}}</td>
+                        <td>{{$user->designation_appart}}</td>
+                        <td>{{$user->date_debut}}</td>
+                        <td>{{$user->date_fin}}</td>
+                        <td>{{$user->libele_paiement}}</td>
+                        </tr>
+                      @endforeach
+                    
+                      
+                      </tbody>
+                    </table>
+                  </div>
+                  <!-- /.table-responsive -->
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer clearfix">
                   
-                  </tbody>
-                </table>
+                  <a href="pool_reserv" class="btn btn-sm btn-default btn-flat pull-right">Valider les réservations</a>
+                </div>
+                <!-- /.box-footer -->
               </div>
-              <!-- /.table-responsive -->
+              <!-- /.box -->
             </div>
-            <!-- /.box-body -->
-            <div class="box-footer clearfix">
-              
-              <a href="pool_reserv" class="btn btn-sm btn-default btn-flat pull-right">Valider les réservations</a>
-            </div>
-            <!-- /.box-footer -->
-          </div>
-          <!-- /.box -->
-        </div>
-        <!-- /.col -->
+            <!-- /.col -->
 
+          @endif
+        @endforeach
+        
         <div class="col-md-4">
 
           <!-- PRODUCT LIST -->

@@ -325,8 +325,10 @@ Route::middleware(['auth:admin'])->group(function(){
     //MODIFICATION D'UN COMPTE CLIENT
     Route::post('edit_customer_form', [UserController::class, 'EditCustomerForm']);
 
+    //ENREGISTRER UN CLIENT
     Route::post('add_customer', [UserController::class, 'AddCustomer']);
 
+    //MODIFIER UN CLIENT
     Route::post('edit_customer', [UserController::class, 'EditCustomerAccount']);
 
     //MODIFIER SON MOT DE PASSE
@@ -339,6 +341,7 @@ Route::middleware(['auth:admin'])->group(function(){
 
     //FORMULAIRE DE RESERVATION A MODIFIER ET MODIFICATION
     Route::post('edit_reserv_form', [ReservationController::class, 'EditReservationForm']);
+    //SOUMETTRE LA MODIFICATION
     Route::post('edit_the_reservation', [ReservationController::class, 'AdminEditReservation']);
 
     Route::post('save_reservation', [ReservationController::class, 'SaveReservation']);
@@ -363,13 +366,15 @@ Route::middleware(['auth:admin'])->group(function(){
     //SOLDER LA RESERVATION RAPIDEMENT
     Route::post('solder', [ReservationController::class, 'SolderReservation']);
 
+    //PAYER LA RESERVATION
+    Route::post('to_pay_form', [ReservationController::class, 'ToPayForm']);
+    //SOUMETTRE LE PAIEMENT
+    Route::post('attempt_to_pay', [ReservationController::class, 'Pay']);
 
     //supprimer la reservation
-
     Route::post('deleteReservation', [ReservationController::class, 'ReservationCancel']);
 
     //supprimer l'appartement
-
     Route::post('deleteappart', [AppartController::class, 'DeleteAppart']);
 
     //supprimer un client 

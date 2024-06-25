@@ -52,6 +52,7 @@
                     <th>Type de paiement</th>
                     <th>Paiement par:</th>
                     <th>Montant</th>
+                    <th>Montant Restant</th>
                     <th>Etat</th>
                     <th >Action</th>
                    
@@ -69,17 +70,29 @@
                     <td>{{$all->date_fin}}</td>
                     <td>{{$all->libele_paiement}}</td>
                     <td>{{$all->libele_mode_paie}}</td>
-                    <td>{{$all->montant}}</td>
+                    <td>@php echo number_format($all->montant, 0, ',', ' ')@endphp</td>
+                    <td>@php echo number_format(($all->montant_paye - $all->montant) , 0, ',', ' ')@endphp</td>
                     <td>
                       @if($all->validate == 0)
                         En attente de validation
                       @else
                         @if($all->solder == 0)
-                          <form action="solder" method="post">
-                            @csrf
-                            <input type="text" name="id_reservation" style="display: none;" value="{{$all->id_reservation}}">
-                            <button class="btn btn-warning"><span class="fa fa-check"></span>SOLDER</button>
-                          </form>
+                          @if($all->id_paiement >= 3)
+                            <form action="to_pay_form" method="post">
+                              @csrf
+                              <input type="text" name="id_reservation" style="display: none;" value="{{$all->id_reservation}}">
+                              <button class="btn btn-warning"><span class="fa fa-check"></span>PAYER UNE TRANCHE</button>
+                            </form>
+
+                          @else
+                            <form action="solder" method="post">
+                              @csrf
+                              <input type="text" name="id_reservation" style="display: none;" value="{{$all->id_reservation}}">
+                              <button class="btn btn-warning"><span class="fa fa-check"></span>SOLDER</button>
+                            </form>
+                          @endif
+                          
+                        
                         @else
                           Réservation  soldée
                         @endif
@@ -88,12 +101,13 @@
                     </td>
 
                     <td align="center">
-                     <form action="deleteReservation" method="post">
+                      <form action="deleteReservation" method="post">
                         @csrf
                         <input type="text" name="id_reservation" style="display: none;" value="{{$all->id_reservation}}">
                         <button class="btn btn-danger"><span class="fa fa-trash"></span></button>
                       </form>
                       @if($all->validate == 0)
+
                         <form action="validate" method="post">
                           @csrf
                           <input type="text" name="id_reservation" style="display: none;" value="{{$all->id_reservation}}">
@@ -120,6 +134,7 @@
                   <th>Type de paiement</th>
                   <th>Paiement par:</th>
                   <th>Montant</th>
+                  <th>Montant Restant</th>
                   <th>Etat</th>
                   <th >Action</th>
                  

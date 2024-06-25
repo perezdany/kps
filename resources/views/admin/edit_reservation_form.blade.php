@@ -89,7 +89,7 @@
                                 //var_dump($appart);
                             @endphp
                                 
-                            '<b><option value={{$reservation->id}}>{{$reservation->designation_appart}} || tarif:{{$reservation->prix}}</option></b>
+                            '<b><option value={{$reservation->id}}>{{$reservation->designation_appart}} || <b>tarif_jours:</b>{{$reservation->prix_jour}} ||  <b>tarif_nuits: </b>{{$reservation->prix_nuit}}</option></b>
                             @foreach($appart as $all)
                                 
                                 @php
@@ -100,7 +100,7 @@
                                     //var_dump (empty($busy));
                                     if(empty(get_object_vars($busy)))//donc l'appart est libre
                                     {
-                                        echo'<b><option value="'.$all->id.'">'.$all->designation_appart.' || tarif:'.$all->prix.'</option></b>';
+                                        echo'<b><option value="'.$all->id.'">'.$all->designation_appart.' || <b>tarif jours: </b>'.$all->prix_jour.' || <b>tarif nuit: </b>'.$all->prix_nuit.'</option></b>';
                                         
                                     }
                                     else

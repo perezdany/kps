@@ -163,7 +163,7 @@ class AppartController extends Controller
         $get = DB::table('apparts')
         ->where('id', $id)
         ->join('typeapparts', 'typeapparts.id_type_appart', '=', 'apparts.id_type_appart')
-        ->get(['apparts.id', 'apparts.designation_appart', 'apparts.prix_jour', 'apparts.nb_lit', 'apparts.nb_douche', 'apparts.path', 'apparts.path_descript1', 'apparts.path_descript2', 'apparts.path_descript3', 'apparts.note', 'apparts.internet_wifi', 'apparts.description', 'typeapparts.id_type_appart', 'typeapparts.libele_type_appart']);
+        ->get(['apparts.id', 'apparts.designation_appart', 'apparts.prix_jour', 'apparts.prix_nuit',  'apparts.nb_lit', 'apparts.nb_douche', 'apparts.path', 'apparts.path_descript1', 'apparts.path_descript2', 'apparts.path_descript3', 'apparts.note', 'apparts.internet_wifi', 'apparts.description', 'typeapparts.id_type_appart', 'typeapparts.libele_type_appart']);
 
         //dd($get);
         return $get;
