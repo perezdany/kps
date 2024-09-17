@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Client;
 use App\Models\Appart;
 use DB;
-
+/*  Mot de passe mail info yC1@!Ku72eqnmCQ */
 use Illuminate\Support\Facades\File;
 
 class AppartController extends Controller
@@ -18,7 +18,7 @@ class AppartController extends Controller
 
     public function getWithId($id)
     {
-        $get = DB::table('apparts')->join('typeapparts', 'typeapparts.id_type_appart', '=', 'apparts.id_type_appart')->where('apparts.id', '>', $id)->orderByRaw('apparts.id', 'asc')->get(['apparts.id', 'apparts.designation_appart', 'apparts.prix_jour', 'apparts.nb_lit', 'apparts.nb_douche', 'apparts.path', 'apparts.path_descript1', 'apparts.path_descript2', 'apparts.path_descript3', 'apparts.note', 'apparts.internet_wifi', 'apparts.description', 'typeapparts.id_type_appart', 'typeapparts.libele_type_appart'])->take(3);
+        $get = DB::table('apparts')->join('typeapparts', 'typeapparts.id', '=', 'apparts.id_type_appart')->where('apparts.id', '>', $id)->orderByRaw('apparts.id', 'asc')->get(['apparts.id', 'apparts.designation_appart', 'apparts.prix_jour', 'apparts.nb_lit', 'apparts.nb_douche', 'apparts.path', 'apparts.path_descript1', 'apparts.path_descript2', 'apparts.path_descript3', 'apparts.note', 'apparts.internet_wifi', 'apparts.description', 'typeapparts.id', 'typeapparts.libele_type_appart'])->take(3);
         
         //$get = DB::table('apparts')->where('id', '>=', $id)->get();
 
@@ -27,7 +27,7 @@ class AppartController extends Controller
 
     /*ublic function getAppartWithId($id)
     {
-        $get = DB::table('apparts')->join('typeapparts', 'typeapparts.id_type_appart', '=', 'apparts.id_type_appart')->where('apparts.id', '!=', $id)->orderByRaw('apparts.id', 'asc')->get(['apparts.id', 'apparts.designation_appart', 'apparts.prix', 'apparts.nb_lit', 'apparts.nb_douche', 'apparts.path', 'apparts.path_descript1', 'apparts.path_descript2', 'apparts.path_descript3', 'apparts.note', 'apparts.internet_wifi', 'apparts.description', 'typeapparts.id_type_appart', 'typeapparts.libele_type_appart']);
+        $get = DB::table('apparts')->join('typeapparts', 'typeapparts.id', '=', 'apparts.id_type_appart')->where('apparts.id', '!=', $id)->orderByRaw('apparts.id', 'asc')->get(['apparts.id', 'apparts.designation_appart', 'apparts.prix', 'apparts.nb_lit', 'apparts.nb_douche', 'apparts.path', 'apparts.path_descript1', 'apparts.path_descript2', 'apparts.path_descript3', 'apparts.note', 'apparts.internet_wifi', 'apparts.description', 'typeapparts.id', 'typeapparts.libele_type_appart']);
         
         //$get = DB::table('apparts')->where('id', '>=', $id)->get();
 
@@ -45,14 +45,14 @@ class AppartController extends Controller
 
     public function getFirstThree()
     {
-        $get = DB::table('apparts')->join('typeapparts', 'typeapparts.id_type_appart', '=', 'apparts.id_type_appart')->orderByRaw('apparts.id', 'asc')->take(3)->get(['apparts.id', 'apparts.designation_appart', 'apparts.prix_jour', 'apparts.nb_lit', 'apparts.nb_douche', 'apparts.path', 'apparts.path_descript1', 'apparts.path_descript2', 'apparts.path_descript3', 'apparts.note', 'apparts.internet_wifi', 'apparts.description', 'typeapparts.id_type_appart', 'typeapparts.libele_type_appart']);
+        $get = DB::table('apparts')->join('typeapparts', 'typeapparts.id', '=', 'apparts.id_type_appart')->orderByRaw('apparts.id', 'asc')->take(3)->get(['apparts.id', 'apparts.designation_appart', 'apparts.prix_jour', 'apparts.nb_lit', 'apparts.nb_douche', 'apparts.path', 'apparts.path_descript1', 'apparts.path_descript2', 'apparts.path_descript3', 'apparts.note', 'apparts.internet_wifi', 'apparts.description', 'typeapparts.id', 'typeapparts.libele_type_appart']);
 
         return $get;
     }
 
     public function GetLast($id)
     {
-        $get = DB::table('apparts')->join('typeapparts', 'typeapparts.id_type_appart', '=', 'apparts.id_type_appart')->orderByRaw('apparts.id', 'asc')->where('apparts.id', '>', $id)->get(['apparts.id', 'apparts.designation_appart', 'apparts.prix_jour', 'apparts.nb_lit', 'apparts.nb_douche', 'apparts.path', 'apparts.path_descript1', 'apparts.path_descript2', 'apparts.path_descript3', 'apparts.note', 'apparts.internet_wifi', 'apparts.description', 'typeapparts.id_type_appart', 'typeapparts.libele_type_appart'])->take(2);
+        $get = DB::table('apparts')->join('typeapparts', 'typeapparts.id', '=', 'apparts.id_type_appart')->orderByRaw('apparts.id', 'asc')->where('apparts.id', '>', $id)->get(['apparts.id', 'apparts.designation_appart', 'apparts.prix_jour', 'apparts.nb_lit', 'apparts.nb_douche', 'apparts.path', 'apparts.path_descript1', 'apparts.path_descript2', 'apparts.path_descript3', 'apparts.note', 'apparts.internet_wifi', 'apparts.description', 'typeapparts.id', 'typeapparts.libele_type_appart'])->take(2);
 
         return $get;
     }
@@ -60,13 +60,13 @@ class AppartController extends Controller
     public function GetMostAccurate()
     {
         $get = DB::table('apparts')
-            ->join('typeapparts', 'typeapparts.id_type_appart', '=', 'apparts.id_type_appart')->orderByRaw('apparts.id', 'asc')
+            ->join('typeapparts', 'typeapparts.id', '=', 'apparts.id_type_appart')->orderByRaw('apparts.id', 'asc')
             ->where('apparts.note', '>=', 4)
             ->select('apparts.*', 'typeapparts.*')
             ->get();
         //dd($get);
         return $get;
-        /*->get(['apparts.id', 'apparts.designation_appart', 'apparts.prix', 'apparts.nb_lit', 'apparts.nb_douche', 'apparts.path', 'apparts.path_descript1', 'apparts.path_descript2', 'apparts.path_descript3', 'apparts.note', 'apparts.internet_wifi', 'apparts.description', 'typeapparts.id_type_appart', 'typeapparts.libele_type_appart']);*/
+        /*->get(['apparts.id', 'apparts.designation_appart', 'apparts.prix', 'apparts.nb_lit', 'apparts.nb_douche', 'apparts.path', 'apparts.path_descript1', 'apparts.path_descript2', 'apparts.path_descript3', 'apparts.note', 'apparts.internet_wifi', 'apparts.description', 'typeapparts.id', 'typeapparts.libele_type_appart']);*/
     }
 
     public function AppartBusy($id)
@@ -82,9 +82,9 @@ class AppartController extends Controller
 
     public function AllAppart()
     {
-        $get = DB::table('apparts')->join('typeapparts', 'typeapparts.id_type_appart', '=', 'apparts.id_type_appart')
+        $get = DB::table('apparts')->join('typeapparts', 'typeapparts.id', '=', 'apparts.id_type_appart')
         ->orderByRaw('apparts.id', 'asc')
-        ->get(['apparts.id', 'apparts.designation_appart', 'apparts.prix_jour', 'apparts.prix_nuit', 'apparts.nb_lit', 'apparts.nb_douche', 'apparts.path', 'apparts.path_descript1', 'apparts.path_descript2', 'apparts.path_descript3', 'apparts.note', 'apparts.internet_wifi', 'apparts.description', 'typeapparts.id_type_appart', 'typeapparts.libele_type_appart']);
+        ->get(['apparts.*', 'typeapparts.libele_type_appart']);
 
         return $get;
     }
@@ -162,8 +162,8 @@ class AppartController extends Controller
     {
         $get = DB::table('apparts')
         ->where('id', $id)
-        ->join('typeapparts', 'typeapparts.id_type_appart', '=', 'apparts.id_type_appart')
-        ->get(['apparts.id', 'apparts.designation_appart', 'apparts.prix_jour', 'apparts.prix_nuit',  'apparts.nb_lit', 'apparts.nb_douche', 'apparts.path', 'apparts.path_descript1', 'apparts.path_descript2', 'apparts.path_descript3', 'apparts.note', 'apparts.internet_wifi', 'apparts.description', 'typeapparts.id_type_appart', 'typeapparts.libele_type_appart']);
+        ->join('typeapparts', 'typeapparts.id', '=', 'apparts.id_type_appart')
+        ->get(['apparts.id', 'apparts.designation_appart', 'apparts.prix_jour', 'apparts.prix_nuit',  'apparts.nb_lit', 'apparts.nb_douche', 'apparts.path', 'apparts.path_descript1', 'apparts.path_descript2', 'apparts.path_descript3', 'apparts.note', 'apparts.internet_wifi', 'apparts.description', 'typeapparts.id', 'typeapparts.libele_type_appart']);
 
         //dd($get);
         return $get;

@@ -143,9 +143,9 @@ Route::middleware(['guest:web'])->group(function(){
     });
 
     //les traitements des réservation
-    Route::get('reservation_form', function () {
+    /*Route::get('reservation_form', function () {
         return view('customer/reservation_form');
-    });
+    });*/
 
     //FORMULAIRE DE RESERVATION
     Route::post('submit/reservation_form', [ReservationController::class, 'AddReservation']);

@@ -17,16 +17,17 @@ class Calculator extends Controller
     {
         //L'appart en question
         $appart = Appart::where('id', $id_appart)->first();
-
+        //dd($mois);
         //Voir qu'est ce qui a été rempli parmi le jour et le mois et la nuit
         if($mois != 0)//il a rempli le mois
-        {
+        {   
+            //dd('ici');
             //chaque mois n'as pas le meme nombre de jour, il faut donc déterminer le mois en question
             //pour déterminier le ou les mois en question il faut avoir la date de sortie du client
             //on a la date d'arrivée
             if($jours == 0)//il n'a pas voulu remplir les jours mais plutot le mois
             {
-
+                //dd('ll');
                 $departtime =strtotime($date_entree.'+'.$mois.' months');
                 $depart = date("Y-m-d", $departtime);
 
@@ -52,6 +53,7 @@ class Calculator extends Controller
             }
             else //y a des jours dessus encore
             {
+                //dd('mm');
                 $departtime =strtotime($date_entree.'+'.$mois.' months');
                 $depart = date("Y-m-d", $departtime);
 
@@ -78,8 +80,9 @@ class Calculator extends Controller
                 $amount = $appart->prix_jour * $le_nombre_jours;
             }
 
-            if($nuit != 0)// il a rempli le nombre de nuit et pas le jours
+            if($nuits != 0)// il a rempli le nombre de nuit et pas le jours
             {
+                //dd('aa');
                 $departtime =strtotime($date_entree.'+'.$mois.' months');
                 $depart = date("Y-m-d", $departtime);
 
@@ -109,7 +112,11 @@ class Calculator extends Controller
         }
         else//il a rempli uniquement les jours ou les nuits
         {
-            $amount = ($jours * $appart->prix_jour) + ($nuits * $appart->prix_nuit);
+            //dd($nuits);
+            $amount = intval(($nuits * $appart->prix_nuit)) + intval(($jours * $appart->prix_jour)) ; 
+            //($jours * $appart->prix_jour); //+ ($nuits * $appart->prix_nuit);
+
+            //dd($amount);
         }
 
         return $amount ;
@@ -118,11 +125,12 @@ class Calculator extends Controller
     }
 
 
-    public function DepartDate($jours, $date_entree, $mois)
+    public function DepartDate($jours, $date_entree, $mois, $nuits)
     {
         $timestamp = strtotime($date_entree);
         if($jours == 0)//il a rempli uniquement le mois
         {
+            //dd('y');
             if($mois != 0) //si le mois est rempli donc et différent de zéro
             {
                 //strtotime(‘+’.$duree.’ month’, $dateDepartTimestamp )
@@ -133,18 +141,29 @@ class Calculator extends Controller
             }
             else
             {
-                return redirect('reservation_form')->with('error', 'Vous devez mettre au moins un nombre de jours.');
+                if($nuits != 0)// il a rempli le nombre de nuit le jours
+                {
+                    $departtime = $timestamp + ($nuits * 86400);
+                    $depart = date("Y-m-d", $departtime); 
+                }
+                else
+                {
+                    return redirect('reservation_form')->with('error', 'Vous devez mettre au moins un nombre de jours ou de mois.');  
+                }
+                
             }
            
             //return $depart;
         }
         else // le jour est rempli et différent de zéro
         {
+            //dd('cc');
             if($mois != 0)// le jours est différent de 0 et le mois aussi
             {
-                
+                //dd('tt');
                 if($jours == 30 OR $jours == 31) // c'est copmme ci ca fait un mois 
                 {
+                    //dd('ll');
                     $departtime =strtotime('+1 month', $timestamp);
                     $add_month = strtotime('+'.$mois.' month', $departtime);
                     
@@ -154,17 +173,42 @@ class Calculator extends Controller
                 }
                 else 
                 {
-                    $departtime = strtotime('+'.$mois.' month', $timestamp);
-                    $the_final = strtotime('+'.$jours.' days', $departtime);
-                    $depart = date("Y-m-d", $the_final);
-                    return $depart;
+                    if($nuits != 0)// il a rempli le nombre de nuit le jours
+                    {
+                        $departtime = strtotime('+'.$mois.' month', $timestamp);
+                        $the_final = strtotime('+'.($jours+$nuits).' days', $departtime);
+                        $depart = date("Y-m-d", $the_final); 
+
+                        return $depart;
+                    }
+                    else
+                    {
+                        $departtime = strtotime('+'.$mois.' month', $timestamp);
+                        $the_final = strtotime('+'.$jours.' days', $departtime);
+                        $depart = date("Y-m-d", $the_final);
+                        return $depart;
+                    }
+                  
                 }
             }
             else //le mois est 0 c'est le jours seul qui est différent de zéro
             {
-                $departtime = $timestamp + ($jours * 86400);
-                $depart = date("Y-m-d", $departtime); 
-                return $depart;   
+                if($nuits != 0)// il a rempli le nombre de nuit le jours
+                {
+                    $departtime = $timestamp + (($jours+$nuits) * 86400);
+
+                    $depart = date("Y-m-d", $departtime); 
+                    //dd($depart);
+                    return $depart;
+                }
+                else
+                {
+                    $departtime = $timestamp + ($jours * 86400);
+                    $depart = date("Y-m-d", $departtime); 
+                    return $depart;   
+                }
+
+               
             }
 
 

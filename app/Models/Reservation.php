@@ -23,6 +23,7 @@ class Reservation extends Model
         'jours',
         'mois',
         'montant',
+        'montant_paye',
         'solder',
         'date', 
         'heure'

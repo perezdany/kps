@@ -40,10 +40,12 @@ class ReservationController extends Controller
         //echo $date_debut;
 
         //calcul du montant
-        $montant  = $calculator->AmountReservation($appart, $jours, $mois, $date_debut);
+        $montant  = $calculator->AmountReservation($appart, $jours, $nuits, $mois, $date_debut);
         
         //la date de départ de l'appartement
-        $depart_date = $calculator->DepartDate($jours, $date_debut, $mois);
+        $depart_date = $calculator->DepartDate($jours, $date_debut, $mois, $nuits);
+
+        
 
         //Récuperer le client concercé
         $id_client = auth()->user()->id;
@@ -84,13 +86,11 @@ class ReservationController extends Controller
 
     }
 
-    public function SaveReservation()
+    public function SaveReservation(Request $request)
     {
         //on vérifie d'abord si c'est un client connecté ou si c'est un admini qui fait la réservaton
 
-        if(session()->has('theadmin'))
-        {
-            $appart = htmlspecialchars($request->appart);
+         $appart = htmlspecialchars($request->appart);
             $date_debut = htmlspecialchars($request->date_debut);
             $jours = htmlspecialchars($request->jours);
             $nuits = htmlspecialchars($request->nuits);
@@ -104,15 +104,15 @@ class ReservationController extends Controller
             //echo $date_debut;
 
             //calcul du montant
-            $montant  = $calculator->AmountReservation($appart, $jours, $mois, $date_debut);
+            $montant  = $calculator->AmountReservation($appart, $jours, $nuits, $mois, $date_debut);
             
             //la date de départ de l'appartement
-            $depart_date = $calculator->DepartDate($jours, $date_debut, $mois);
+            $depart_date = $calculator->DepartDate($jours, $date_debut, $mois, $nuits);
 
             //Récuperer le client concercé
             $id_client = (new UserController())->GetByEmail($user_email); //session('theuser')->id_client;
             //dd(gettype($id_client));
-
+            //dd($id_client->id);
             if($id_client == null)
             {
                 return redirect('save_reservation')->with('error', 'Cette adresse email (adresse du client) n\'existe pas essayez une autre adresse svp');
@@ -131,7 +131,7 @@ class ReservationController extends Controller
                 $heure = date('h:i:s');
 
                 //on passe à la sauvegarde maintenant
-                $reservation = new Reservation(['id_reservation' => $id_reservation, 'id_client' => $id_client->id_client,  'id' => $appart, 'id_mode_paie' => $mode_paiement, 'id_paiement' => $type_paiement, 'validate' => $validate, 'date_debut' => $date_debut, 'date_fin' =>  $depart_date, 'jours' => $jours, 'nuits' => $nuits, 'mois' => $mois, 'montant' => $montant, 'solder' => 0, 'date' => $today, 'heure' => $heure]);
+                $reservation = new Reservation(['id_reservation' => $id_reservation, 'id_client' => $id_client->id,  'id' => $appart, 'id_mode_paie' => $mode_paiement, 'id_paiement' => $type_paiement, 'validate' => $validate, 'date_debut' => $date_debut, 'date_fin' =>  $depart_date, 'jours' => $jours, 'nuits' => $nuits, 'mois' => $mois, 'montant' => $montant, 'solder' => 0, 'date' => $today, 'heure' => $heure]);
                 $reservation->save();
 
                 //on va voir si l'appartement etait dans son panier et donc le vider après reservation
@@ -156,13 +156,6 @@ class ReservationController extends Controller
 
             }
 
-           
-        }
-        else
-        {
-            return redirect('save_reservation')->with('error', 'Vous devez d\'abord vous connecter avant de faire une réservation! Connectez-vous via l\'espace client');
-        }
-
     }
 
 
@@ -171,7 +164,7 @@ class ReservationController extends Controller
         $get = DB::table('reservations')
         ->join('clients', 'clients.id', '=', 'reservations.id_client')
         ->join('apparts', 'apparts.id', '=', 'reservations.id')
-        ->join('typeapparts', 'typeapparts.id_type_appart', '=', 'apparts.id_type_appart')
+        ->join('typeapparts', 'typeapparts.id', '=', 'apparts.id_type_appart')
         ->join('paiements', 'paiements.id_paiement', '=', 'reservations.id_paiement')
         ->join('modepaiements', 'modepaiements.id_mode_paie', '=', 'reservations.id_mode_paie')
         ->where('reservations.validate', 0)
@@ -192,7 +185,7 @@ class ReservationController extends Controller
          ->join('paiements', 'paiements.id_paiement', '=', 'reservations.id_paiement')
          ->join('modepaiements', 'modepaiements.id_mode_paie', '=', 'reservations.id_mode_paie')
          ->where('reservations.id_reservation', '=', $id_reservation)
-        ->get(['apparts.id', 'apparts.designation_appart', 'apparts.prix_jour', 'apparts.nb_lit', 'apparts.nb_douche', 'apparts.path', 'apparts.path_descript1', 'apparts.path_descript2', 'apparts.path_descript3', 'apparts.note', 'apparts.internet_wifi', 'apparts.description', 'clients.nom_prenoms', 'clients.tel', 'clients.email', 'paiements.libele_paiement', 'modepaiements.libele_mode_paie', 'modepaiements.id_mode_paie', 'reservations.id_paiement', 'reservations.id_reservation', 'reservations.validate', 'reservations.montant', 'reservations.date_debut', 'reservations.date_fin', 'reservations.jours', 'reservations.mois']);
+        ->get(['apparts.id', 'apparts.designation_appart', 'apparts.prix_jour', 'apparts.prix_nuit', 'apparts.nb_lit', 'apparts.nb_douche', 'apparts.path', 'apparts.path_descript1', 'apparts.path_descript2', 'apparts.path_descript3', 'apparts.note', 'apparts.internet_wifi', 'apparts.description', 'clients.nom_prenoms', 'clients.tel', 'clients.email', 'paiements.libele_paiement', 'modepaiements.libele_mode_paie', 'modepaiements.id_mode_paie', 'reservations.id_paiement', 'reservations.id_reservation', 'reservations.validate', 'reservations.montant', 'reservations.date_debut', 'reservations.date_fin', 'reservations.jours', 'reservations.mois', 'reservations.nuits']);
         
         //$get = DB::table('apparts')->where('id', '>=', $id)->get();
 
@@ -213,6 +206,7 @@ class ReservationController extends Controller
         $date_debut = htmlspecialchars($request->date_debut);
         $jours = htmlspecialchars($request->jours);
         $mois = htmlspecialchars($request->mois);
+        $nuits = htmlspecialchars($request->nuits);
         $user_email = htmlspecialchars($request->email);
         $mode_paiement = htmlspecialchars($request->modepaiement);
         $type_paiement = htmlspecialchars($request->paiement);
@@ -225,7 +219,7 @@ class ReservationController extends Controller
         //echo $date_debut;
 
         //calcul du montant
-        $montant  = $calculator->AmountReservation($appart, $jours, $mois, $date_debut);
+        $montant  = $calculator->AmountReservation($appart, $jours, $nuits, $mois, $date_debut);
         
         //la date de départ de l'appartement
         $depart_date = $calculator->DepartDate($jours, $date_debut, $mois);
@@ -396,6 +390,7 @@ class ReservationController extends Controller
         $date_debut = htmlspecialchars($request->date_debut);
         $jours = htmlspecialchars($request->jours);
         $mois = htmlspecialchars($request->mois);
+        $nuits = htmlspecialchars($request->nuits);
         $user_email = htmlspecialchars($request->email);
         $mode_paiement = htmlspecialchars($request->modepaiement);
         $type_paiement = htmlspecialchars($request->paiement);

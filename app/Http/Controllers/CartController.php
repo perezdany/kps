@@ -60,31 +60,34 @@ class CartController extends Controller
         //Rechercher l'id du produit qui a cet élément
         $appart = Appart::where('id', $request->id_appart)->first();
 
+        //dd($appart);
         //on va voir si il y a une entrée de cet appart avec cet email(l'instance en question)
         $get_cart = Shoppingcart::where('instance', $request->user_email)->where('content',  $appart->designation_appart)->first();
-
-        if($duplicata->isNotEmpty() AND $get_cart)
+        //dd($duplicata->isNotEmpty())
+        if($duplicata == false AND $get_cart)
         {
             return redirect()->route('myspace')->with('error', 'Le produit a déja été ajouté!');
-
+            //dd('ici');
         }
         else
         {
+            //dd('laba');
             //Rechercher l'id du produit qui a cet élément
             $appart = Appart::where('id', $request->id_appart)->first();
-             
-            Cart::add($appart->id, $appart->designation_appart, 1, $appart->prix)->associate('App\Models\Appart');
-
+            
+            Cart::add($appart->id, $appart->designation_appart, 1, $appart->prix_jour)->associate('App\Models\Appart');
+             //dd($appart);
            
             foreach(Cart::content() as $get)
             {
                 $to_the_db = Shoppingcart::where('instance',  $request->user_email)->where('identifier',  $get->rowId)->first();
-                if($to_the_db)
+                if($to_the_db)//on n'a pas de ligne correspondate a cet rowId
                 {
 
                 }
                 else
                 {
+                    //dd('cc');
                     //on va stocker certaines infos du panier en fonction du client dans la base
                     $cart = new Shoppingcart(['identifier' => $get->rowId, 'instance' => $request->user_email,  'content' => $get->model->designation_appart]);
                     $cart->save();
@@ -150,7 +153,7 @@ class CartController extends Controller
     public function destroy($rowid, $email)
     {
         //Supprimer un article qui est dans le panier
-
+        //dd('cc');
         Cart::remove($rowid);
 
         //supprimer aussi dans la base de données

@@ -63,15 +63,25 @@
 
                   <tr style="vertical-align: middle;">
                  
-                    <td>{{$all->date}} à {{$all->heure}}</td>
+                    <td>@php echo date('d/m/Y',strtotime($all->date)) @endphp à @php echo date('H:i:s',strtotime($all->heure)) @endphp</td>
                     <td>{{$all->nom_prenoms}}</td>
                     <td>{{$all->designation_appart}}</td>
-                    <td>{{$all->date_debut}}</td>
-                    <td>{{$all->date_fin}}</td>
+                    <td>@php echo date('d/m/Y',strtotime($all->date_debut)) @endphp</td>
+                    <td>@php echo date('d/m/Y',strtotime($all->date_fin)) @endphp</td>
                     <td>{{$all->libele_paiement}}</td>
                     <td>{{$all->libele_mode_paie}}</td>
                     <td>@php echo number_format($all->montant, 0, ',', ' ')@endphp</td>
-                    <td>@php echo number_format(($all->montant_paye - $all->montant) , 0, ',', ' ')@endphp</td>
+                    <td>
+                      @php
+                        $rest = ($all->montant_paye - $all->montant);
+                        if($rest < 0)
+                        {
+
+                          echo number_format((-1 * $rest), 0, ',', ' ');
+                        }
+
+                      @endphp
+                </td>
                     <td>
                       @if($all->validate == 0)
                         En attente de validation

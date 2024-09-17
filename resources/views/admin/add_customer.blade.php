@@ -100,7 +100,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                  <label  class="col-sm-4 control-label">Mot de passe:</label>
+                  <label  class="col-sm-4 control-label">confirmer mot de passe:</label>
                   <div class="col-sm-8">
                       <input type="password" class="form-control" id="pwd2" name="confirm_pass" required onkeyup="verifyPassword()">
                 

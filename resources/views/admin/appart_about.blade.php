@@ -61,7 +61,8 @@
                 </div>
                 <!-- /.col -->
                 <div class="col-sm-4 invoice-col">
-                  <b>Tarif: {{$appart->prix}}/jours</b><br>
+                  <b>Tarif: {{$appart->prix_jour}}/jours</b><br>
+                  <b>Tarif: {{$appart->prix_nuit}}/nuits</b><br>
                   <br>
                   <p>
                     {{$appart->description}}

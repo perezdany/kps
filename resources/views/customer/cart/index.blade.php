@@ -72,6 +72,8 @@
                     $compte = 0;
 
                     $appart = new AppartController();//pour aller chercher des infos dans la base au cas ou
+
+                    //dd(Cart::count());
                 @endphp
 
                 @if (Cart::count() > 0)
@@ -83,8 +85,9 @@
                         <div class="row g-4">
                             @foreach(Cart::content() as $get)
                                 @php
-                                    $to_the_db = Shoppingcart::where('instance', auth()->user()->email)->where('identifier',  $get->rowId)->first();
-                                    //var_dump($to_the_db);
+                                    $to_the_db = Shoppingcart::where('instance', auth()->user()->email)
+                                    ->where('identifier',  $get->rowId)->first();
+                                    //dd($to_the_db);
                                 @endphp
                                 @if($to_the_db)
 
@@ -92,7 +95,7 @@
                                         <div class="room-item shadow rounded overflow-hidden">
                                             <div class="position-relative"><!--l'image-->
                                                 <img class="img-fluid" src="{{Storage::url($get->model->path)}}" alt="{{$get->model->designation_appart}}">
-                                                <small class="position-absolute start-0 top-100 translate-middle-y bg-primary text-white rounded py-1 px-3 ms-4">{{$get->model->prix}}/Nuit</small>
+                                                <small class="position-absolute start-0 top-100 translate-middle-y bg-primary text-white rounded py-1 px-3 ms-4">{{$get->model->prix_jour}}/jour  & {{$get->model->prix_nuit}}/nuit</small>
                                             </div>
                                             <div class="p-4 mt-2">
                                                 <div class="d-flex justify-content-between mb-3"><!--nom et note-->
@@ -120,7 +123,7 @@
                                                     @endif
                                                     
                                                 </div>
-                                                <p class="text-body mb-3">Découvrez le confort dans cet appartement de {{$get->model->note}} étoiles pour {{$get->model->prix}} la nuit. Vous pouvez voir plus de détails en cliquant sur le bouton</p>
+                                                <p class="text-body mb-3">Découvrez le confort dans cet appartement de {{$get->model->note}} étoiles pour {{$get->model->prix_jour}} le jour & {{$get->model->prix_nuit}} la nuit. Vous pouvez voir plus de détails en cliquant sur le bouton</p>
                                                <div class="d-flex justify-content-between">
                                                
                                                     <a class="btn btn-sm btn-primary rounded py-2 px-4" href="my_cart/deleteItem/{{$get->rowId}}/{{auth()->user()->email}}">Retirer du panier</a>

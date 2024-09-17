@@ -129,7 +129,7 @@
 
                                                     <select class="form-control" name="appart" required>
 
-                                                       <option value="{{$reservation->id}}"> <b>{{$reservation->designation_appart}} || tarif: {{$reservation->prix}}</b>
+                                                       <option value="{{$reservation->id}}"> <b>{{$reservation->designation_appart}} || tarif: {{$reservation->prix_jour}}/jour && {{$reservation->prix_nuit}}/nuit</b>
                                                         </option> 
                                                        
                                                          @php   
@@ -151,7 +151,8 @@
                                                                 
                                                                 if(empty(get_object_vars($busy)))//donc l'appart est libre
                                                                 {
-                                                                   echo'<b><option value="'.$all->id.'">'.$all->designation_appart.' || tarif:'.$all->prix.'</option></b>';
+                                                                   echo'<b><option value="'.$all->id.'">'.$all->designation_appart.' || tarif:'.$all->prix_nuit.'/nuit'.$all->prix_jour.'/jour
+                                                                   </option></b>';
                                                                     
                                                                 }
                                                                 else
@@ -185,8 +186,14 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-floating">
-                                                    <input type="number" class="form-control" value="{{$reservation->mois}}" name="mois" min="0" max="12"required>
+                                                    <input type="number" class="form-control" value="{{$reservation->mois}}" name="mois" min="0" max="31"required>
                                                     <label for="">Nombre de mois</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <input type="number" class="form-control" value="{{$reservation->nuits}}" name="nuits" min="0" max="31"required>
+                                                    <label for="">Nombre de nuits</label>
                                                 </div>
                                             </div>
 

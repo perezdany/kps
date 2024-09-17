@@ -223,7 +223,7 @@
                                 </div>
                             </div>
                             <h5 class="mb-3">Chambres & Appartments</h5>
-                            <p class="text-body mb-0">Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam stet diam sed stet lorem.</p>
+                            <p class="text-body mb-0">Offrent des espaces confortables et modernes, alliant design élégant et fonctionnalité pour répondre aux besoins de chaque résident. Que ce soit pour un séjour court ou long terme, ils garantissent un cadre de vie agréable et bien équipé.</p>
                         </a>
                     </div>
                     <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.2s">
@@ -234,7 +234,7 @@
                                 </div>
                             </div>
                             <h5 class="mb-3">Nouriture & Restaurant</h5>
-                            <p class="text-body mb-0">Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam stet diam sed stet lorem.</p>
+                            <p class="text-body mb-0">Propose une expérience culinaire unique, avec des plats savoureux préparés à partir d'ingrédients frais et de saison. Que ce soit pour un repas gastronomique ou un dîner décontracté, chaque visite promet un voyage gustatif inoubliable dans une ambiance accueillante.</p>
                         </a>
                     </div>
                     <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
@@ -245,7 +245,7 @@
                                 </div>
                             </div>
                             <h5 class="mb-3">Spa & Fitness</h5>
-                            <p class="text-body mb-0">Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam stet diam sed stet lorem.</p>
+                            <p class="text-body mb-0">Offre un havre de détente et de bien-être, combinant soins revitalisants et installations de remise en forme de pointe. Profitez d'une expérience revitalisante pour le corps et l'esprit dans un cadre serein et luxueux.</p>
                         </a>
                     </div>
                     <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.4s">
@@ -256,7 +256,7 @@
                                 </div>
                             </div>
                             <h5 class="mb-3">Sports & Gaming</h5>
-                            <p class="text-body mb-0">Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam stet diam sed stet lorem.</p>
+                            <p class="text-body mb-0">Propose une combinaison dynamique d'activités sportives et de divertissements immersifs, conçus pour stimuler l'énergie et l'esprit compétitif. Avec des installations de pointe et des jeux passionnants, c'est l'endroit idéal pour se divertir et se défier entre amis.</p>
                         </a>
                     </div>
                     <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
@@ -267,7 +267,7 @@
                                 </div>
                             </div>
                             <h5 class="mb-3">Evènements & Fêtes</h5>
-                            <p class="text-body mb-0">Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam stet diam sed stet lorem.</p>
+                            <p class="text-body mb-0">Transforment chaque occasion en une célébration mémorable, avec des décors captivants et une ambiance festive. Que ce soit pour un mariage, un anniversaire ou une soirée à thème, chaque détail est soigneusement orchestré pour créer des souvenirs inoubliables.</p>
                         </a>
                     </div>
                     <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.6s">
@@ -278,7 +278,7 @@
                                 </div>
                             </div>
                             <h5 class="mb-3">GYM & Yoga</h5>
-                            <p class="text-body mb-0">Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam stet diam sed stet lorem.</p>
+                            <p class="text-body mb-0">Offre un équilibre parfait entre force et sérénité, avec des séances d'entraînement énergisantes et des pratiques de yoga apaisantes. Profitez d'un espace accueillant pour renforcer votre corps, améliorer votre flexibilité, et cultiver votre bien-être mental.</p>
                         </a>
                     </div>
                 </div>

@@ -119,7 +119,7 @@
                                         
                                                     @endphp
                                                     
-                                                    <b>{{$getThe_appart->designation_appart}} || tarif: {{$getThe_appart->prix}}</b>
+                                                    <b>{{$getThe_appart->designation_appart}} || tarif: {{$getThe_appart->prix_jour}}/Jour & {{$getThe_appart->prix_nuit}}/nuit </b>
                                                     </option> 
                                                 @endif
                                                  @php   
@@ -132,16 +132,19 @@
                                                     
                                                 
                                                 @foreach($appart as $all)
-                                                    
+                                                    {{$all->prix_jour}}
                                                     @php
                                                         //dd($appart->id);
                                                         //voir si l'appart qui a ce id est oqp
                                                         $busy = (new AppartController())->AppartBusy($all->id);
                                                        
                                                         //var_dump (empty($busy));
+                                                        //dd();
+                                                        //echo "<h3>".$all->prix_jour."</h3>";
+                                                        echo empty(get_object_vars($busy));
                                                         if(empty(get_object_vars($busy)))//donc l'appart est libre
                                                         {
-                                                           echo'<b><option value="'.$all->id.'">'.$all->designation_appart.' || tarif:'.$all->prix.'</option></b>';
+                                                           echo'<b><option value="'.$all->id.'">'.$all->designation_appart.' || tarif: NUIT: '.$all->prix_jour.'/ JOUR:'.$all->prix_nuit.'</option></b>';
                                                             //var_dump($busy);
                                                         }
                                                         else
@@ -175,7 +178,7 @@
 									
 									<div class="col-md-6">
                                         <div class="form-floating">
-                                            <input type="number" class="form-control" value="0" name="jours" min="0" max="31"required>
+                                            <input type="number" required class="form-control" value="0" name="jours" min="0" max="31"required>
                                             <label for="">Nombre de jours</label>
                                         </div>
                                     </div>
@@ -196,7 +199,7 @@
                                     <div class="col-md-6">
                                         <div class="form-floating">
                                             <input type="email" class="form-control" id="" name="email" required>
-                                            <label for="">Email du Client(*)</label>
+                                            <label for="">Email(*)</label>
                                         </div>
                                     </div>
 
