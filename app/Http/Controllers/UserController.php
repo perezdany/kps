@@ -699,7 +699,15 @@ class UserController extends Controller
 
     public function ResetMyPassword(Request $request)
     {
+        //dd($request->all());
+        $user_password = Hash::make($request->password);
+        //dd( $user_password);
+        $customer_update = DB::table('clients')
+        ->where('id', $request->id_client)
+        ->update(['password' => $user_password,]);
+        //dd($customer_update);
 
+        return redirect('customer_login')->with('success', 'Mot de passe réinitialisé. Veuillez vous connecter');
     }
 
     public function getDepartmentLevel($id)

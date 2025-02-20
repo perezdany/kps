@@ -287,7 +287,7 @@
                 <div class="col-lg-10 border rounded p-1">
                     <div class="border rounded text-center p-1">
                         <div class="bg-white rounded text-center p-5">
-                            <h4 class="mb-4">Abonnez-vous à nos <span class="text-primary text-uppercase">Annonces</span></h4>
+                            <!--<h4 class="mb-4">Abonnez-vous à nos <span class="text-primary text-uppercase">Annonces</span></h4>
                             <form class="position-relative mx-auto" style="max-width: 400px;" method="post" action="newsletter">
                                 @csrf
                                 <input class="form-control w-100 py-3 ps-4 pe-5" type="email" placeholder="Enter your email" name="contact" onkeyup="this.value=this.value.toLowerCase()">
@@ -295,7 +295,7 @@
                                 <p>
                                     
                                 </p>
-                            </form>
+                            </form>-->
                         </div>
                     </div>
                 </div>

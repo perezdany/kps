@@ -19,11 +19,11 @@ class DepartementController extends Controller
         return $get;
     }
 
-    public function AddDepartement()
+    public function AddDepartement(Request $request)
     {
-        $departement = request('departement');
-
-        $query = new Departement(['desig_departement' => $departement]);
+        $departement = $request->departement;
+        
+        $query = new Departement(['desig_departement' => $departement, 'niveau' => request->niveau]);
         $query->save();
 
         

@@ -74,6 +74,9 @@
                         </div>
 						<hr>
 						<br>
+                        <p>
+                            <span>Si vous avez oublié votre mot de passe,</span><a href="forget_pass_form">Cliquez-ici</a>
+                        </p><br>
 						<p>
 							<span>Si vous n'avez pas de Compte,</span><a href="customer_register">Cliquez-ici pour créer un compte</a>
 						</p>

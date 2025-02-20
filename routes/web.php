@@ -80,6 +80,8 @@ Route::post('get_email', [UserController::class, 'VerifResetCustomerPassword']);
 
 Route::get('/reset_pass_form/{id_client}', [UserController::class, 'ResetPassCustomerForm']);
 
+Route::post('reset_pass_form/reset_my_password', [UserController::class, 'ResetMyPassword']);
+
 /*---------*/
 
 //ESPACE CLIENT

@@ -139,6 +139,14 @@
                         </div>
 
                         <div class="form-group">
+                        <label  class="col-sm-4 control-label">Nombre de nuits :</label>
+
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control" value="0" name="nuits" min="0" max="31" value="{{$reservation->nuits}}" required>
+                        </div>
+                        </div>
+
+                        <div class="form-group">
                             <label  class="col-sm-4 control-label">Email du client :</label>
                             <div class="col-sm-8">
             

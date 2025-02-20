@@ -70,7 +70,17 @@
                     <input type="text" class="form-control" name="departement" placeholder="Entrez le nom du département" onkeyup="this.value=this.value.toUpperCase()">
                   </div>
                 </div>
-                
+                 <div class="form-group">
+                  <label  class="col-sm-2 control-label">Nom:</label>
+                    
+                  <div class="col-sm-10">
+                    <select type="text" class="form-control" name="niveau">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                    </select>
+                  </div>
+                </div>
                 
               </div>
               <!-- /.box-body -->
